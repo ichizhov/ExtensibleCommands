@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Ilya Chizhov</Authors>
+    <Company>https://github.com/ichizhov/ExtensibleCommands</Company>
+    <Product>Extensible Commands Library</Product>
+    <Description>Simple and efficient operational sequencing library.</Description>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/ichizhov/ExtensibleCommands</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ichizhov/ExtensibleCommands</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove=".gitignore" />
+    <None Include="..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
