@@ -1,0 +1,5 @@
+TestResults/
+packages/
+.vs/
+bin/
+obj/
