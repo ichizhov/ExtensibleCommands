@@ -55,7 +55,7 @@ It is worth pointing out that commands with children (i.e. nodes at the root of 
  
 ## 3.3.	ICommand interface.
 
-The basic functionality of command classes is distilled in ICommand interface. [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ICommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/Command.java)
+The basic functionality of command classes is distilled in ICommand interface. [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ICommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/Command.java)
  
 |Member|Type / Return type|Meaning|
 |---------------|---------------|------------|

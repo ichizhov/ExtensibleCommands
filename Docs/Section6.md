@@ -19,7 +19,7 @@ A  hybrid approach is to create a command object with the application, but to fi
 
 ## 6.2.	Command event logging.
 
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ExtensibleCommandsCore.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/ExtensibleCommandsCore.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ExtensibleCommandsCore.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/ExtensibleCommandsCore.java)
 
 The Extensible Commands library itself does not have any logging capabilities. However, it defines a simple ILog interface that is used throughout the code to log key events of command execution (start, completion, failure). To make use of logging, a preferred logging package needs to be exposed through ILog interface and supplied as Logger property in ExtensibleCommandsCore class. Then command event logging can be turned on and off by setting IsLoggingEnabled property. In the unit test projects that are a part of the Extensible Commands, a simple logger redirecting all logging statements to a console output is supplied.
 
@@ -31,7 +31,7 @@ Debugging of sequences built using Extensible Commands is more complicated than 
 
 ## 6.4.	Unit Testing.
 
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands)
 
 The Extensible Commands library comes with a suite of unit tests that test all the internal plumbing of the infrastructure. Every command class is subjected to standard unit tests checking the correct setting of the command states, responses to various failures, stop, resume and abort scenarios and other aspects of the Extensible Commands functionality. If any change to the library is made, the Unit Test project needs to be modified or expanded accordingly.
 

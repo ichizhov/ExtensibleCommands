@@ -8,7 +8,7 @@ This section shows how to apply Extensible Commands to actual software developme
 
 ## 5.1.	Stage Initialization sequence.
 
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java)
 
 As the first example let’s consider how to implement an initialization sequence for a mechanical stage with 3 degrees of freedom using Extensible Commands. The stage has 3 axes (X, Y and Z) that need to be homed and then positioned at a pre-defined initial location. Homing is not 100% reliable, so it needs to be retried 2 times if it fails initially. Axes can move independently. At the end of the sequence, a log record is created. A flowchart describing the sequence is shown in Figure 17.
 To represent this flowchart as a command, we need to extract the steps where the actual work is done and the steps responsible for flow control logic.
@@ -89,7 +89,7 @@ stageInitializationCommand.Run();
 
 ## 5.2.	Pattern Search Sequence: managing input and output parameters.
 
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java)
 
 Due to the nature of command pattern approach, parameters can be passed into and out of command objects as properties. Command objects are created before their execution, generally before input parameters are known, and can be executed multiple times with different input parameters. This makes parameter handling in the Extensible Commands infrastructure somewhat involved.
 

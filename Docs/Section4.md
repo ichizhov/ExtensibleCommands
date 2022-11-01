@@ -8,8 +8,8 @@ This section provides an in-depth look at each of the command class in Extensibl
 
 ## 4.1.	SimpleCommand.
 
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
 
 The SimpleCommand class implements an atomic operation. It encapsulates a method (without parameters and return value) that is executed when the command is run. For example, to instantiate a SimpleCommand object:
 
@@ -25,8 +25,8 @@ This section describes the simplest use case for Simple command with input/outpu
 	
 #### 4.1.1.1	SimpleCommandI<TInput>.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
 	
 To implement an operation with an input parameter, one needs to create a SimpleCommandI<TInput> object specifying a concrete input parameter type, and provide a delegate that will perform desired operation with the input data. To execute this command,  the input parameter needs to be set and the command run:
 	
@@ -38,8 +38,8 @@ simpleCommand.Run();
 	
 #### 4.1.1.2	SimpleCommandIO<TInput, TOutput>.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
 	
 To implement an operation with an input and output parameter, one needs to create a SimpleCommandIO<TInput, TOutput> object specifying concrete input and output parameter types, and provide a delegate that performs desired operation with the input data and sets the value of the output parameter. To execute this command, one needs to set the input parameter, run the command and extract the output:
 	
@@ -52,8 +52,8 @@ Console.WriteLine("Simple Command output = {0}", simpleCommand.Output);
 	
 ## 4.2.	SequentialCommand.
 
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SequentialCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/SequentialCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SequentialCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/SequentialCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SequentialCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SequentialCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SequentialCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SequentialCommandTest.java)
 	
 The SequentialCommand class is expected to be one of the most used Extensible Commands classes. It chains sub-commands to create a linear sequence. Provided DoSomething1() and DoSomething2() methods are defined, they are going to be executed sequentially.
 	
@@ -75,8 +75,8 @@ Figure 7. Sequential command flowchart.
 	
 ## 4.3.	ParallelCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ParallelCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/ParallelCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/ParallelCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/ParallelCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ParallelCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/ParallelCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/ParallelCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/ParallelCommandTest.java)
 	
 The ParallelCommand class executes commands in parallel on separate threads from a thread pool. It can be instantiated in the same way as a SequentialCommand object:
 
@@ -103,8 +103,8 @@ Figure 8. Parallel command flowchart.
 	
 ## 4.4.	ConditionalCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ConditionalCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/ConditionalCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/ConditionalCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/ConditionalCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ConditionalCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/ConditionalCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/ConditionalCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/ConditionalCommandTest.java)
 	
 The ConditionalCommand class represents branching depending on a Boolean condition. It is basically identical to the if/else operator. To use Conditional command, a predicate delegate and two commands need to be defined, each of which is represented by a property of the ConditionalCommand class:
 - Predicate, which is evaluated first;
@@ -127,14 +127,14 @@ Figure 9. Conditional command flowchart.
 	
 ## 4.5.	DecoratorCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/DecoratorCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/DecoratorCommand.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/DecoratorCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/DecoratorCommand.java)
 	
 All decorator commands have a Core command that is always executed, and then optionally one or more commands that can be executed before or after the Core command depending on the specific conditions. This construct allows creation of control flow scenarios covering many important use cases. All decorator command objects have a property called CoreCommand. DecoratorCommand is an abstract class and cannot be instantiated.
 	
 ## 4.6.	RetryCommand.
 
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/RetryCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/RetryCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/RetryCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/RetryCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/RetryCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/RetryCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/RetryCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/RetryCommandTest.java)
 	
 The RetryCommand class implements a repeated execution of a command in case of certain failures. The command is retried if an exception of type ExtensibleCommandsAllowRetryException is thrown within the Execute() method of the CoreCommand property. For example:
 
@@ -151,8 +151,8 @@ Figure 10. Retry command flowchart.
 	
 ## 4.7.	CyclicCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/CyclicCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/CyclicCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CyclicCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/CyclicCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/CyclicCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/CyclicCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CyclicCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/CyclicCommandTest.java)
 	
 The CyclicCommand class implements a loop:
 	
@@ -166,8 +166,8 @@ This Cyclic command will run the Core command 100 times. If any of these runs fa
 
 ## 4.8.	GenericCyclicCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/GenericCyclicCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/GenericCyclicCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericCyclicCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/GenericCyclicCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/GenericCyclicCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/GenericCyclicCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericCyclicCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericCyclicCommandTest.java)
 	
 The GenericCyclicCommand class also implements a loop, but it is based on a collection of generic type T that is supplied as a parameter to this command’s constructor. During execution the collection is iterated through and the Core command is executed on every iteration.
 	
@@ -183,8 +183,8 @@ Figure 12. Generic Cyclic command flowchart.
 
 ## 4.9.	RecoverableCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/RecoverableCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/RecoverableCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/RecoverableCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/RecoverableCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/RecoverableCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/RecoverableCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/RecoverableCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/RecoverableCommandTest.java)
 	
 The RecoverableCommand class allows execution of a recovery command if the Core command fails. For this mechanism to be triggered, the Execute() method of the CoreCommand property should throw exception of type ExtensibleCommandsAllowRecoveryException.
 	
@@ -213,8 +213,8 @@ This code works because ExtensibleCommandsAllowRetryException is derived from Ex
 	
 ## 4.10. TryCatchFinallyCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/TryCatchFinallyCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/TryCatchFinallyCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/TryCatchFinallyCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/TryCatchFinallyCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/TryCatchFinallyCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/TryCatchFinallyCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/TryCatchFinallyCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/TryCatchFinallyCommandTest.java)
 	
 The TryCatchFinallyCommand class is similar to RecoverableCommand class, but it allows execution of a command (FinallyCommand) regardless of failure or success of the Core command. Whether an ExtensibleCommandsException is generated within the Execute() method of the Core command, or not, FinallyCommand will be executed. This scenario is useful if a certain operation (such as a return to a safe state, for example) is needed regardless of the overall command outcome.
 	
@@ -230,8 +230,8 @@ Figure 14. Try-Catch-Finally command flowchart.
 	
 ## 4.11. WhileCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/WhileCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/WhileCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/WhileCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/WhileCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/WhileCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/WhileCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/WhileCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/WhileCommandTest.java)
 	
 The WhileCommand class executes a Core command multiple times until a predicate condition is satisfied (assuming an integer variable counter is defined):
 	
@@ -249,8 +249,8 @@ Figure 15. While command flowchart.
 
 ## 4.12. AbortableCommand.
 	
-[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/AbortableCommand.cs) [[Java code]](../Java/extensiblecommands/src/main/java/org/extensiblecommands/AbortableCommand.java)
-[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/AbortableCommandTest.cs) [[Java unit tests]](../Java/extensiblecommands/src/test/java/org/extensiblecommands/AbortableCommandTest.java)
+[[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/AbortableCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/AbortableCommand.java)
+[[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/AbortableCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/AbortableCommandTest.java)
 						
 The AbortableCommand class is important for implementing atomic operations that may need to be aborted before they are completed. For example, an operation on a hardware device may take a long time to complete and may need to be aborted quickly due to safety reasons. The AbortableCommand class allows convenient packaging of such operations.
 							

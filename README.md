@@ -14,13 +14,13 @@ Though my experience was specific to applications involving orchestration of com
 
 ## 2. Basic structure of the project.
 
-The body of the code contains 2 mirror implementations: in [C#](CSharp/ExtensibleCommands/ExtensibleCommands) and [Java](Java/extensiblecommands/src/main/java/org/extensiblecommands). Each contains the main project and the unit test project. Unit tests also serve as a reference on the the practical use of the library code in different scenarios.
+The body of the code contains 2 mirror implementations: in [C#](CSharp/ExtensibleCommands/ExtensibleCommands) and [Java](Java/ExtensibleCommands/src/main/java/org/extensiblecommands). Each contains the main project and the unit test project. Unit tests also serve as a reference on the the practical use of the library code in different scenarios.
 
 The main project contains classes implementing Extensible Commands. The approach is inspired by the command pattern as decribed by the ["Gang of Four"](https://springframework.guru/gang-of-four-design-patterns/). The essence of the approach is to combine the command pattern (with the encapsulation of the operation inside a class), and the composite pattern (with the combination of inheritance and composition relationship). This allows the construction of a hierarchy of command objects that are derived from each other and can be contained within each other.
 
 The overall class diagram of the project is shown below.
 
-![Picture 1](docs/Figures/Figure1.png)
+![Picture 1](Docs/Figures/Figure1.png)
 
 Each command class implements an aspect of flow control functionality. Many correspond to functionality already implemented in high-level programming languages (such as ConditionalCommand for if-else operator), but others represent control functionality not available "out of the box" (such as RetryCommand). SimpleCommand classes serve as the implementors of the actual content of operations, while all other commands serve to stictch these individual operations into coordinated sequences.
 
@@ -28,7 +28,7 @@ In a practical application, instances of these classes can be created and combin
 
 Each command can be executed by calling its Run() method. There is no external execution manager. As the command is being executed, it goes through various states that can be monitored. 
 
-This section is just a brief introdction to the internals of the Extensible Comands library. For detailed description, please see the [Main Documentation](docs/TableOfContent.md).
+This section is just a brief introdction to the internals of the Extensible Comands library. For detailed description, please see the [Main Documentation](Docs/TableOfContent.md).
 
 ## 3. Getting Started.
 
@@ -121,9 +121,9 @@ The code can now be compiled and run.
 
 Code samples used in the documentation to illustrate the basic use of command classes can be found in this unit test source file:  [CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CommandExamplesTest.cs](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CommandExamplesTest.cs). They are in C# only, there is no corresponding file in the Java project.
 
-Unit tests are organized by command classes and is a good source to get more insights into the details of each command class ([[C# unit tests]](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests)[[Java unit tests]](Java/extensiblecommands/src/test/java/org/extensiblecommands)). 
+Unit tests are organized by command classes and is a good source to get more insights into the details of each command class ([[C# unit tests]](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests)[[Java unit tests]](Java/ExtensibleCommands/src/test/java/org/extensiblecommands)). 
 
-For practical use cases of complex command construction, please see [Section 5 of Main Documentation](docs/Section5.md) and these unit test source files:  [CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) (C#) and [Java/extensiblecommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java](Java/extensiblecommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java) (Java).
+For practical use cases of complex command construction, please see [Section 5 of Main Documentation](Docs/Section5.md) and these unit test source files:  [CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) (C#) and [Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java](Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java) (Java).
 
 ## 4. Difference between C# and Java implementations.
 
@@ -144,15 +144,15 @@ C# and Java implementations are written to be as similar as possible. C# general
 
 Here are links to various parts of the Extensible Commands code and documentation:
 
-[Main Documentation](docs/TableOfContent.md)
+[Main Documentation](Docs/TableOfContent.md)
 
 [C# code](CSharp/ExtensibleCommands/ExtensibleCommands)
 
 [C# unit tests](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests)
 
-[Java code](Java/extensiblecommands/src/main/java/org/extensiblecommands)
+[Java code](Java/ExtensibleCommands/src/main/java/org/extensiblecommands)
 
-[Java unit tests](Java/extensiblecommands/src/test/java/org/extensiblecommands)
+[Java unit tests](Java/ExtensibleCommands/src/test/java/org/extensiblecommands)
 
 ## 6. License
 
