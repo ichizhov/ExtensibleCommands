@@ -42,8 +42,6 @@ To add Extensible Commands dependency to a C#/.NET project, search for “Extens
 
 Detailed step-by-step instructions for creating a canonical "Hello World" application can be found [here](Docs/HelloWorldCSharp.md). 
 
-[Extensible Commands on NuGet](https://www.nuget.org/packages/ExtensibleCommands/).
-
 ### 3.2. Java.
 
 To add Extensible Commands dependency to a Java project, add the following block to <dependencies> node in your pom.xml file: 
@@ -56,8 +54,6 @@ To add Extensible Commands dependency to a Java project, add the following block
 ```
 
 Detailed step-by-step instructions for creating a canonical "Hello World" application can be found [here](Docs/HelloWorldJava.md). 
-
-[Extensible Commands on Maven](https://search.maven.org/artifact/io.github.ichizhov/extensiblecommands/1.0.0/jar). 
 
 ### 3.3. Documentation and code samples.
 
@@ -95,11 +91,3 @@ Here are links to various parts of the Extensible Commands code and documentatio
 [Java code](Java/ExtensibleCommands/src/main/java/org/extensiblecommands)
     
 [Java unit tests](Java/ExtensibleCommands/src/test/java/org/extensiblecommands)
-
-## 6. License
-
-The project is covered by the [MIT license](LICENSE).
-
-## 7. Releases.
-
-The current version of the project is the initial release 1.1.0.
