@@ -1,3 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/ichizhov/ExtensibleCommands/blob/main/LICENSE)
+[![Nuget](https://img.shields.io/nuget/v/ExtensibleCommands)](https://www.nuget.org/packages/ExtensibleCommands)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.ichizhov/extensiblecommands)](https://search.maven.org/artifact/io.github.ichizhov/extensiblecommands/1.0.0/jar)
+
 # Extensible Commands
 
 ## 1. Introduction. Why Extensible Commands?
@@ -83,9 +87,13 @@ C# and Java implementations are written to be as similar as possible. C# general
 Here are links to various parts of the Extensible Commands code and documentation:
 
 [Main Documentation](Docs/TableOfContent.md)
+    
 [C# code](CSharp/ExtensibleCommands/ExtensibleCommands)
+    
 [C# unit tests](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests)
+    
 [Java code](Java/ExtensibleCommands/src/main/java/org/extensiblecommands)
+    
 [Java unit tests](Java/ExtensibleCommands/src/test/java/org/extensiblecommands)
 
 ## 6. License
