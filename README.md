@@ -30,94 +30,32 @@ Each command can be executed by calling its Run() method. There is no external e
 
 This section is just a brief introdction to the internals of the Extensible Comands library. For detailed description, please see the [Main Documentation](Docs/TableOfContent.md).
 
-## 3. Getting Started.
+## 3. Getting started.
 
-This section describes how to get started with Extensible Commands by writing a canonical "Hello World" application. 
+### 3.1. C#.
 
-### 3.1. C#. [NEEDS TESTING]
+To add Extensible Commands dependency to a C#/.NET project, search for “ExtensibleCommands” in NuGet Package Manager, select and install it. 
 
-Here is a simple step-by-step procedure to create a console application using Extensible Commands C# library in Microsoft Visual Studio Community Edition 2019 development environment. For other situations, the procedure may be modified accordingly.
+Detailed step-by-step instructions for creating a canonical "Hello World" application can be found [here](Docs/HelloWorldCSharp.md). 
 
-To include Extensible Commands project into a C#/.NET application please follow these steps.
-1) Create new target "Hello World" project (or for your specific target project, skip to Step (2). Open Visual Studio 2019. In a start window panel:
-   - Select "Create a new project".
-   - In the next window select " Console application" template and press "Next".
-   - In the next window ("Configure your new project") enter the project name and its location and press "Next". 
-   - In the next window keep the default Target framework and press "Create".
-   - The new project should now be loaded and the main Visual Studio 2019 window should be displayed.
-2) Add Extensible Commands package to the project:
-   - Select menu item "Tool > NuGet Package Manager > Manage NuGet Packages for Solution ..."
-   - In the NuGet tab press "Browse" sub-tab and enter "ExtensibleCommands" in the search box and press "Enter".
-   - From the list of packages select ExtensibleCommands, then select the project in the solution as a target and press "Install".
-   - The package should now be added as a dependency to the project.
-3) Add the sample code:
-   - Copy and paste the below sample code to the body of Main() method in Program.cs source file.
-   - Add statement ```using ExtensibleCommands;``` to the top of the file.
- 
-The code can now be compiled and run.
+[Extensible Commands on NuGet](https://www.nuget.org/packages/ExtensibleCommands/).
 
+### 3.2. Java.
+
+To add Extensible Commands dependency to a Java project, add the following block to <dependencies> node in your pom.xml file: 
 ```
-        // Output string to console
-        var helloWorldCmd = new SimpleCommandI<string>(input => Console.WriteLine(input), "Hello World\n");
-
-        // Wait for user input
-        var waitForConsoleInputCmd = new SimpleCommand(() => Console.ReadKey());
-
-        // Create sequence of the above 2 steps
-        var sequentialCommand = new SequentialCommand();
-        sequentialCommand.Add(helloWorldCmd).Add(waitForConsoleInputCmd);
-
-        // Supply input and run sequence
-        helloWorldCmd.Input = "Hello World!";
-        sequentialCommand.Run();
+<dependency> 
+    <groupId>io.github.ichizhov</groupId> 
+    <artifactId>extensiblecommands</artifactId> 
+    <version>1.1.0</version> 
+</dependency> 
 ```
 
-### 3.2. Java. [NEEDS TESTING]
+Detailed step-by-step instructions for creating a canonical "Hello World" application can be found [here](Docs/HelloWorldJava.md). 
 
-Java project is structured so that it is compilable from Maven command line, as well as from IntelliJ IDEA development environment.
+[Extensible Commands on Maven](https://search.maven.org/artifact/io.github.ichizhov/extensiblecommands/1.0.0/jar). 
 
-Here is a simple step-by-step procedures to get started using Extensible Commands Java library in IntelliJ IDEA 2021.1 development environment. For other situations, the procedure may be modified accordingly.
-
-To include Extensible Commands project into a Java application as a Maven module, please follow these steps. 
-1) Create new target "Hello World" project (or for your specific target project, skip to Step (2). On "Welcome to IntelliJ IDEA" startup panel:
-   - Press "New Project" button.
-   - Keep selections of "Java" and "12.0" in "Project SDK" drop-down menu. Press "Next" button.
-   - Check "Create project from template" checkbox. Select "Command Line App" template. Press "Next" button.
-   - Enter project name, for example, "HelloWorldApp". Enter desired project location and base package name. Press "Next" button. At this point the new project will be created.
-   - Once the project is created, open File -> Project Structure -> Modules -> Rename module to HelloWorldApp. (?)
-2) Add Extensible Commands library to the project:
-   - Open File -> Project Structure -> Modules.
-   - In the panel on the right add a dependency: press "+" and select "Library" from the drop-down menu.
-   - In the "Choose Library" dialog box press "New Library" and select "From Maven..." from the drop-down menu.
-   - In the "Download Library from Maven Repository" dialog box search for Extensible Commands library by typing "extensiblecommands" in the search box.
-   - Select "extensiblecommands" from the list and press "OK".
-   - In "Configure Library" dialog box keep the selections and press "OK".
-   - Select "extensiblecommands" from the list and "Project Libraries" and press "Add Selected".
-   - Press "Apply" and then "OK". The library is now aded to the project.
-3) Add the sample code:
-   - Copy and paste the below sample code to the body of main() method in Main.java source file.
-   - Add statement ```import org.extensiblecommands.*;``` to the top of the file.
-   - Add statement ```throws Exception``` to the declaration of main().
-
-The code can now be compiled and run.
-
-```
-        // Output string to console
-        var helloWorldCmd = new SimpleCommandI<String>(input -> System.out.println(input), "Hello World\n");
-
-        // Wait for user input
-        var waitForConsoleInputCmd = new SimpleCommand(() -> System.in.read());
-
-        // Create sequence of the above 2 steps
-        var sequentialCommand = new SequentialCommand();
-        sequentialCommand.add(helloWorldCmd).add(waitForConsoleInputCmd);
-
-        // Supply input and run sequence
-        helloWorldCmd.setInput("Hello World!");
-        sequentialCommand.run();
-```
-
-### 3.3. More documentation and code samples.
+### 3.3. Documentation and code samples.
 
 Code samples used in the documentation to illustrate the basic use of command classes can be found in this unit test source file:  [CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CommandExamplesTest.cs](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CommandExamplesTest.cs). They are in C# only, there is no corresponding file in the Java project.
 
@@ -145,13 +83,9 @@ C# and Java implementations are written to be as similar as possible. C# general
 Here are links to various parts of the Extensible Commands code and documentation:
 
 [Main Documentation](Docs/TableOfContent.md)
-
 [C# code](CSharp/ExtensibleCommands/ExtensibleCommands)
-
 [C# unit tests](CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests)
-
 [Java code](Java/ExtensibleCommands/src/main/java/org/extensiblecommands)
-
 [Java unit tests](Java/ExtensibleCommands/src/test/java/org/extensiblecommands)
 
 ## 6. License
@@ -160,4 +94,4 @@ The project is covered by the [MIT license](LICENSE).
 
 ## 7. Releases.
 
-The current version of the project is the initial release ...
+The current version of the project is the initial release 1.1.0.
