@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Allows designating a recovery command in case if the core command fails.
+ * Allows designating a recovery command if the core command fails.
  * If the core command succeeds, nothing happens.
  */
 public class RecoverableCommand extends DecoratorCommand {
@@ -80,7 +80,7 @@ public class RecoverableCommand extends DecoratorCommand {
             // Post the error
             exception = coreCommand.getException();
 
-            // Execute recovery command in case of failure (if error allows to continue)
+            // Execute recovery command in case of failure (if error allows continuing)
             if (exception instanceof ExtensibleCommandsAllowRecoveryException) {
                 recoveryCommand.run();
                 if (recoveryCommand.getState() == State.Failed) {

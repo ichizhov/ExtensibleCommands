@@ -92,7 +92,7 @@ public class RetryCommand extends DecoratorCommand {
                                 getCoreCommand().getException().getText()));
         }
 
-        // If after all retries there is still error, we need to report it.
+        // If after all retries there is still an error, we need to report it.
         if (coreCommand.getState() == State.Failed) {
             setState(State.Failed);
             exception = coreCommand.getException();

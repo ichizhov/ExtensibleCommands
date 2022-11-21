@@ -39,7 +39,7 @@ namespace ExtensibleCommands
         /// <summary> Fraction of command completed (between 0 and 1) </summary>
         double FractionCompleted { get; }
 
-        /// <summary> Fraction of command completed in percents (between 0 and 100) </summary>
+        /// <summary> Fraction of command completed in percent (between 0 and 100) </summary>
         int PercentCompleted { get; }
 
         /// <summary> Main method to run the command </summary>

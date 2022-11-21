@@ -24,7 +24,7 @@ public class ParallelCommand extends CompositeCommand {
     protected void execute() throws Exception {
         var exceptions = new ArrayList<Exception>();
 
-        // Make sure we arm Finished events in all sub-commands, so that we can reliably wait for them
+        // Make sure we arm Finished events in all sub-commands so that we can reliably wait for them
         // in a different thread
         for (var subCommand : subCommands)
             subCommand.resetFinished();

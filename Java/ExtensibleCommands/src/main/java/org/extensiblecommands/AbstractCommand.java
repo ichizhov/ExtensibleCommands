@@ -65,12 +65,12 @@ public abstract class AbstractCommand implements Command {
     private Instant stopTime;
 
     /**
-     * Local Abort flag (set on every individual command by calling Abort() method
+     * Local Abort flag (set on every individual command by calling Abort() method)
      */
     protected volatile boolean aborted;
 
     /**
-     * Local Pause flag (set on every individual command by calling Pause() method
+     * Local Pause flag (set on every individual command by calling Pause() method)
      */
     private volatile boolean paused;
 
@@ -95,7 +95,7 @@ public abstract class AbstractCommand implements Command {
     private final Object leafUpdateLock = new Object();
 
     /**
-     * Subscriptions to progress of leaf descendant commands
+     * Subscriptions to the progress of leaf descendant commands
      */
     private final List<Disposable> leafSubscriptions = new ArrayList<>();
 
@@ -191,7 +191,7 @@ public abstract class AbstractCommand implements Command {
     }
 
     /**
-     * @return      Fraction of command completed in percents (between 0 and 100)
+     * @return      Fraction of command completed in percent (between 0 and 100)
      */
     @Override
     public final int getPercentCompleted() {
@@ -243,7 +243,7 @@ public abstract class AbstractCommand implements Command {
             throw e;
         }
         finally {
-            // Even if unhandled exception is thrown, make sure we do this
+            // Even if an unhandled exception is thrown, make sure we do this
             unsubscribeFromLeafProgressUpdates();
 
             // Record elapsed time
@@ -259,7 +259,7 @@ public abstract class AbstractCommand implements Command {
      */
     @Override
     public void pause() {
-        // Iterate through children objects and pause them first.
+        // Iterate through child objects and pause them first.
         // This works recursively, i.e. each child will pause its children.
         for (var command : getChildren())
             command.pause();
@@ -276,7 +276,7 @@ public abstract class AbstractCommand implements Command {
      */
     @Override
     public void resume() {
-        // Iterate through children objects and resume them first.
+        // Iterate through child objects and resume them first.
         // This works recursively, i.e. each child will resume its children.
         for (var command : getChildren())
             command.resume();
@@ -296,7 +296,7 @@ public abstract class AbstractCommand implements Command {
      */
     @Override
     public void abort() {
-        // Iterate through children objects and abort them first.
+        // Iterate through child objects and abort them first.
         // This works recursively, i.e. each child will abort its children.
         for (var command : getChildren())
             command.abort();
@@ -325,7 +325,7 @@ public abstract class AbstractCommand implements Command {
     public final void waitUntilFinished(int timeoutMsec) throws InterruptedException {
         eventFinished.waitOne(timeoutMsec);
 
-        // Ensure that this event is reset, is important for parallel command
+        // Ensure that this event is reset, it is important for parallel command
         eventFinished.reset();
     }
 
@@ -340,7 +340,7 @@ public abstract class AbstractCommand implements Command {
     protected abstract void checkErrors();
 
     /**
-     * Set current state of the command
+     * Set the current state of the command
      * @param state         Current state of the command
      */
     protected final void setState(State state) {
@@ -394,7 +394,7 @@ public abstract class AbstractCommand implements Command {
     }
 
     /**
-     * Recalculate fraction completed
+     * Recalculate the fraction completed
      */
     private void updateFractionCompleted() {
         synchronized (leafUpdateLock) {
@@ -418,11 +418,11 @@ public abstract class AbstractCommand implements Command {
      * Subscribe for progress updates from "leaf" descendants
      */
     private void subscribeForLeafProgressUpdates() {
-        // We are only interested in updates from "leaf" commands, not complex command aggregating other commands
+        // We are only interested in updates from "leaf" commands, not complex commands aggregating other commands
         for (var leaf : getLeaves())
             // Only subscribe to successfully completed "leaf" sub-commands.
             // Consider failed or aborted sub-commands not completed.
-            // Update fraction completed when any of the descendant command completes.
+            // Update fraction completed when any of the descendant commands complete.
             leafSubscriptions.add(leaf.getCurrentStateObservable().filter(s->s == State.Completed).subscribe(s -> updateFractionCompleted()));
     }
 

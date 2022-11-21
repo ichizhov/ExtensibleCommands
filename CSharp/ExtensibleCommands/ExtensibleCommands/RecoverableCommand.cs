@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ExtensibleCommands
 {
     /// <summary>
-    /// Allows designating a recovery command in case if the core command fails. 
+    /// Allows designating a recovery command if the core command fails. 
     /// If the core command succeeds, nothing happens.
     /// </summary>
     public class RecoverableCommand : DecoratorCommand
@@ -74,7 +74,7 @@ namespace ExtensibleCommands
                 // Post the error
                 Exception = CoreCommand.Exception;
 
-                // Execute recovery command in case of failure (if error allows to continue)
+                // Execute recovery command in case of failure (if error allows continuing)
                 if (Exception is ExtensibleCommandsAllowRecoveryException)
                 {
                     RecoveryCommand.Run();

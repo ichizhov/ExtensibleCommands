@@ -60,7 +60,7 @@ namespace ExtensibleCommands
         /// <summary> Fraction of command completed (between 0 and 1) </summary>
         public double FractionCompleted { get; protected set; }
 
-        /// <summary> Fraction of command completed in percents (between 0 and 100) </summary>
+        /// <summary> Fraction of command completed in percent (between 0 and 100) </summary>
         public int PercentCompleted { get { return (int)(100 * FractionCompleted); } }
 
         /// <summary> Synchronization lock object </summary>
@@ -72,10 +72,10 @@ namespace ExtensibleCommands
         /// <summary> Event signaling the completion of command (with any outcome) </summary>
         protected ManualResetEventSlim _eventFinished = new ManualResetEventSlim(false);
 
-        /// <summary> Local Abort flag (set on every individual command by calling Abort() method </summary>
+        /// <summary> Local Abort flag (set on every individual command by calling Abort() method) </summary>
         protected volatile bool _aborted;
 
-        /// <summary> Local Pause flag (set on every individual command by calling Pause() method </summary>
+        /// <summary> Local Pause flag (set on every individual command by calling Pause() method) </summary>
         protected volatile bool _paused;
 
         /// <summary> Current state of the command </summary>
@@ -87,7 +87,7 @@ namespace ExtensibleCommands
         /// <summary> Observable signaling when a progress update is ready </summary>
         private Subject<ProgressUpdate> _progressUpdated = new Subject<ProgressUpdate>();
 
-        /// <summary> Stop watch object to measure how much time command execution takes </summary>
+        /// <summary> Stopwatch object to measure how much time command execution takes </summary>
         private readonly Stopwatch _stopWatch = new Stopwatch();
 
         /// <summary> Event signaling that the command has been resumed </summary>
@@ -105,7 +105,7 @@ namespace ExtensibleCommands
         /// <summary> Lock for leaf descendant command updates </summary>
         private readonly object _leafUpdateLock = new object();
 
-        /// <summary> Subscriptions to progress of leaf descendant commands </summary>
+        /// <summary> Subscriptions to the progress of leaf descendant commands </summary>
         private List<IDisposable> _leafSubscriptions = new List<IDisposable>();
 
         /// <summary> Main method to run the command </summary>
@@ -159,7 +159,7 @@ namespace ExtensibleCommands
                 }
                 finally
                 {
-                    // Even if unhandled exception is thrown, make sure we do this
+                    // Even if an unhandled exception is thrown, make sure we do this
                     UnsubscribeFromLeafProgressUpdates();
 
                     // Record elapsed time
@@ -174,7 +174,7 @@ namespace ExtensibleCommands
         /// <summary> Pause command execution </summary>
         public virtual void Pause()
         {
-            // Iterate through children objects and pause them first.
+            // Iterate through child objects and pause them first.
             // This works recursively, i.e. each child will pause its children.
             foreach (var syncCommand in Children)
                 syncCommand.Pause();
@@ -189,7 +189,7 @@ namespace ExtensibleCommands
         /// <summary> Resume command execution </summary>
         public virtual void Resume()
         {
-            // Iterate through children objects and resume them first.
+            // Iterate through child objects and resume them first.
             // This works recursively, i.e. each child will resume its children.
             foreach (var syncCommand in Children)
                 syncCommand.Resume();
@@ -209,7 +209,7 @@ namespace ExtensibleCommands
         /// <summary> Abort command execution </summary>
         public virtual void Abort()
         {
-            // Iterate through children objects and abort them first.
+            // Iterate through child objects and abort them first.
             // This works recursively, i.e. each child will abort its children.
             foreach (var syncCommand in Children)
                 syncCommand.Abort();
@@ -245,7 +245,7 @@ namespace ExtensibleCommands
             else
                 _eventFinished.Wait(timeoutMsec);
 
-            // Ensure that this event is reset, is important for parallel command
+            // Ensure that this event is reset, it is important for parallel command
             _eventFinished.Reset();
         }
 
@@ -283,7 +283,7 @@ namespace ExtensibleCommands
                 CurrentState = State.Completed;
         }
 
-        /// <summary> Recalculate fraction completed </summary>
+        /// <summary> Recalculate the fraction completed </summary>
         private void UpdateFractionCompleted()
         {
             _numberOfLeavesCompleted++;
@@ -306,14 +306,14 @@ namespace ExtensibleCommands
         /// <summary> Subscribe for progress updates from "leaf" descendants </summary>
         private void SubscribeForLeafProgressUpdates()
         {
-            // We are only intertested in updates from "leaf" commands, not complex command aggregating other commands
+            // We are only interested in updates from "leaf" commands, not complex commands aggregating other commands
             foreach (var command in _leaves)
             {
                 // Only subscribe to successfully completed "leaf" sub-commands.
                 // Consider failed or aborted sub-commands not completed.
                 _leafSubscriptions.Add(command.StateChanged.Where(s => s == State.Completed).Subscribe(s =>
                 {
-                    // Update fraction completed when any of the descendant command completes
+                    // Update fraction completed when any of the descendant commands complete.
                     lock (_leafUpdateLock)
                     {
                         UpdateFractionCompleted();
@@ -325,7 +325,7 @@ namespace ExtensibleCommands
         /// <summary> Unsubscribe from "leaf" progress updates </summary>
         private void UnsubscribeFromLeafProgressUpdates()
         {
-            // We are only interested in updates from "leaf" commands, not complex command aggregating other commands
+            // We are only interested in updates from "leaf" commands, not complex commands aggregating other commands
             foreach (var subscription in _leafSubscriptions)
                 subscription.Dispose();
 

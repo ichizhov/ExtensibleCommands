@@ -6,7 +6,7 @@ namespace ExtensibleCommands
     /// <summary>
     /// Executes Core command, and then executes Finally command, 
     /// regardless of the result of the Core command.
-    /// Finally command will always be executed (unless unhandled exception is thrown in Core command).
+    /// Finally command will always be executed (unless an unhandled exception is thrown in the Core command).
     /// </summary>
     public class TryCatchFinallyCommand : DecoratorCommand
     {

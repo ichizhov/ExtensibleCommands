@@ -66,7 +66,7 @@ public interface Command {
     double getFractionCompleted();
 
     /**
-     * @return      Fraction of command completed in percents (between 0 and 100)
+     * @return      Fraction of command completed in percent (between 0 and 100)
      */
     int getPercentCompleted();
 

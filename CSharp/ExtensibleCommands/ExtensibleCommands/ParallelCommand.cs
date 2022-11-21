@@ -23,7 +23,7 @@ namespace ExtensibleCommands
 
         protected override void Execute()
         {        
-            // Make sure we arm Finished events in all sub-commands, so that we can reliably wait for them
+            // Make sure we arm Finished events in all sub-commands so that we can reliably wait for them
             // in a different thread
             foreach (ICommand subCommand in _subCommands)
                 subCommand.ResetFinished();

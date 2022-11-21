@@ -67,7 +67,7 @@ namespace ExtensibleCommands
                         string.Format("ERROR (RECOVERED)[{0}] - {1}", CoreCommand.Exception.ID, CoreCommand.Exception.Text));
             }
 
-            // If after all retries there is still error, we need to report it.
+            // If after all retries there is still an error, we need to report it.
             if (CoreCommand.CurrentState == State.Failed)
             {
                 CurrentState = State.Failed;
