@@ -2,11 +2,11 @@
 
 [[Table of contents]](TableOfContent.md)
 
-# 4.	Command classes.
+# 4. Command classes.
 
-This section provides an in-depth look at each of the command class in Extensible Commands.
+This section provides an in-depth look at each of the command classes in Extensible Commands.
 
-## 4.1.	SimpleCommand.
+## 4.1. SimpleCommand.
 
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
@@ -15,20 +15,20 @@ The SimpleCommand class implements an atomic operation. It encapsulates a method
 
 ```var simpleCommand = new SimpleCommand(() => Console.WriteLine("Simple 	Command test"), 	"Simple Command");```
 
-Obviously, it is also possible to define a method first and then pass it signature to the SimpleCommand constructor (instead of a lambda expression).
+It is also possible to define a method first and then pass its signature to the SimpleCommand constructor (instead of a lambda expression).
 
-### 4.1.1.	SimpleCommandI<TInput> and SimpleCommandIO<TInput, TOutput>.
+### 4.1.1. SimpleCommandI<TInput> and SimpleCommandIO<TInput, TOutput>.
 	
-SimpleCommand class has generic versions that encapsulate execution of methods with input and output. As implemented, they are limited to only a single input parameter and a single output parameter. If more input and output parameters are needed, either more generic classes need to be implemented, or data needs to be aggregated under a single container class.
+SimpleCommand class has generic versions that encapsulate the execution of methods with input and output. As implemented, they are limited to only a single input parameter and a single output parameter. If more input and output parameters are needed, either more generic classes need to be implemented, or data needs to be aggregated under a single container class.
 	
-This section describes the simplest use case for Simple command with input/output parameters. The issues related to parameter management in a complex command are discussed in [Section 5.2](Section5.md).
+This section describes the simplest use case for the Simple command with input/output parameters. The issues related to parameter management in a complex command are discussed in [Section 5.2](Section5.md).
 	
-#### 4.1.1.1	SimpleCommandI<TInput>.
+#### 4.1.1.1. SimpleCommandI<TInput>.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
 	
-To implement an operation with an input parameter, one needs to create a SimpleCommandI<TInput> object specifying a concrete input parameter type, and provide a delegate that will perform desired operation with the input data. To execute this command,  the input parameter needs to be set and the command run:
+To implement an operation with an input parameter, one needs to create a SimpleCommandI<TInput> object specifying a concrete input parameter type and provide a delegate that will perform the desired operation with the input data. To execute this command,  the input parameter needs to be set and the command run:
 	
 ```
 var simpleCommand = new SimpleCommandI<int>(i => Console.WriteLine("Simple Command input = {0}", i), "Simple Command with input");
@@ -36,7 +36,7 @@ simpleCommand.Input = 10;
 simpleCommand.Run();
 ```
 	
-#### 4.1.1.2	SimpleCommandIO<TInput, TOutput>.
+#### 4.1.1.2. SimpleCommandIO<TInput, TOutput>.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SimpleCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SimpleCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SimpleCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SimpleCommandTest.java)
@@ -50,12 +50,12 @@ simpleCommand.Run();
 Console.WriteLine("Simple Command output = {0}", simpleCommand.Output);
 ```
 	
-## 4.2.	SequentialCommand.
+## 4.2. SequentialCommand.
 
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/SequentialCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/SequentialCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/SequentialCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/SequentialCommandTest.java)
 	
-The SequentialCommand class is expected to be one of the most used Extensible Commands classes. It chains sub-commands to create a linear sequence. Provided DoSomething1() and DoSomething2() methods are defined, they are going to be executed sequentially.
+The SequentialCommand class is expected to be one of the most used Extensible Commands classes. It chains sub-commands to create a linear sequence. Provided the DoSomething1() and DoSomething2() methods are defined, they are going to be executed sequentially.
 	
 ```
 var step1 = new SimpleCommand(DoSomething1, "Step 1");
@@ -73,7 +73,7 @@ Alternatively, sub-commands can be added to a Sequential command via Add() metho
 	
 Figure 7. Sequential command flowchart.
 	
-## 4.3.	ParallelCommand.
+## 4.3. ParallelCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ParallelCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/ParallelCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/ParallelCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/ParallelCommandTest.java)
@@ -86,7 +86,7 @@ parallelCommand.Add(new SimpleCommand(DoSomething1, "Step 1"));
 parallelCommand.Add(new SimpleCommand(DoSomething2, "Step 2"));	
 ```
 	
-As in the case of Sequential command, the object can be instantiated in fluent interface style:
+As in the case of the Sequential command, the object can be instantiated in fluent interface style:
 
 ```	
 var parallelCommandA = new ParallelCommand("Parallel Command A")
@@ -101,7 +101,7 @@ If one of the sub-commands fails during execution, all other sub-commands will c
 	
 Figure 8. Parallel command flowchart.
 	
-## 4.4.	ConditionalCommand.
+## 4.4. ConditionalCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ConditionalCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/ConditionalCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/ConditionalCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/ConditionalCommandTest.java)
@@ -111,7 +111,7 @@ The ConditionalCommand class represents branching depending on a Boolean conditi
 - TrueCommand, which is executed if the Predicate is evaluated to true; 
 - FalseCommand, which is executed if the Predicate is evaluated to false.
 	
-To create a ConditionalCommand object (assuming Boolean variable flag was already defined):
+To create a ConditionalCommand object (assuming the Boolean variable flag was already defined):
 
 ```
 var trueCommand = new SimpleCommand(() => { }, "True");
@@ -119,19 +119,19 @@ var falseCommand = new SimpleCommand(() => { }, "False");
 var conditionalCommand = new ConditionalCommand(() => flag, trueCommand, falseCommand, "Conditional");
 ```
 
-Note that ConditionalCommand class is derived directly from Command class, and not from DecoratorCommand class, because it does not have a Core command.
+Note that ConditionalCommand class is derived directly from the Command class, and not from DecoratorCommand class because it does not have a Core command.
 	
 ![Figure 9](Figures/Figure9.png)
 	
 Figure 9. Conditional command flowchart.
 	
-## 4.5.	DecoratorCommand.
+## 4.5. DecoratorCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/DecoratorCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/DecoratorCommand.java)
 	
-All decorator commands have a Core command that is always executed, and then optionally one or more commands that can be executed before or after the Core command depending on the specific conditions. This construct allows creation of control flow scenarios covering many important use cases. All decorator command objects have a property called CoreCommand. DecoratorCommand is an abstract class and cannot be instantiated.
+All decorator commands have a Core command that is always executed, and then optionally one or more commands that can be executed before or after the Core command depending on the specific conditions. This construct allows the creation of control flow scenarios covering many important use cases. All decorator command objects have a property called CoreCommand. DecoratorCommand is an abstract class and cannot be instantiated.
 	
-## 4.6.	RetryCommand.
+## 4.6. RetryCommand.
 
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/RetryCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/RetryCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/RetryCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/RetryCommandTest.java)
@@ -143,13 +143,13 @@ var coreCommand = new SimpleCommand(() => { throw new 	ExtensibleCommandsAllowRe
 var retryCommand = new RetryCommand(coreCommand, 3, 100, "Retry command with delay");
 ```
 
-After the first failure, the Core command will be retried 3 more times, each time waiting 100 msec before a retry. After the last retry, the Retry command will fail. This happens, because the exception type within the body of the Core command allows retries. If the exception had been of type ExtensibleCommandsException, the command would have failed immediately.
+After the first failure, the Core command will be retried 3 more times, each time waiting for 100 msec before a retry. After the last retry, the Retry command will fail. This happens because the exception type within the body of the Core command allows retries. If the exception had been of type ExtensibleCommandsException, the command would have failed immediately.
  
 ![Figure 10](Figures/Figure10.png)
 	
 Figure 10. Retry command flowchart.
 	
-## 4.7.	CyclicCommand.
+## 4.7. CyclicCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/CyclicCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/CyclicCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/CyclicCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/CyclicCommandTest.java)
@@ -164,12 +164,12 @@ Figure 11. Cyclic command flowchart.
 
 This Cyclic command will run the Core command 100 times. If any of these runs fail, the Cyclic command immediately fails.
 
-## 4.8.	GenericCyclicCommand.
+## 4.8. GenericCyclicCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/GenericCyclicCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/GenericCyclicCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericCyclicCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericCyclicCommandTest.java)
 	
-The GenericCyclicCommand class also implements a loop, but it is based on a collection of generic type T that is supplied as a parameter to this command’s constructor. During execution the collection is iterated through and the Core command is executed on every iteration.
+The GenericCyclicCommand class also implements a loop, but it is based on a collection of generic type T that is supplied as a parameter to this command’s constructor. During execution, the collection is iterated through and the Core command is executed on every iteration.
 	
 ```
 var list = new List<int> { 10, 20, 30 };
@@ -181,12 +181,12 @@ var genericCyclicCommand = new GenericCyclicCommand<int>(coreCommand, list, "Cyc
 	
 Figure 12. Generic Cyclic command flowchart.
 
-## 4.9.	RecoverableCommand.
+## 4.9. RecoverableCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/RecoverableCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/RecoverableCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/RecoverableCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/RecoverableCommandTest.java)
 	
-The RecoverableCommand class allows execution of a recovery command if the Core command fails. For this mechanism to be triggered, the Execute() method of the CoreCommand property should throw exception of type ExtensibleCommandsAllowRecoveryException.
+The RecoverableCommand class allows the execution of a recovery command if the Core command fails. For this mechanism to be triggered, the Execute() method of the CoreCommand property should throw an exception of type ExtensibleCommandsAllowRecoveryException.
 	
 ```
 var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsAllowRecoveryException(0, "ERROR!"); });
@@ -216,7 +216,7 @@ This code works because ExtensibleCommandsAllowRetryException is derived from Ex
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/TryCatchFinallyCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/TryCatchFinallyCommand.java)
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/TryCatchFinallyCommandTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/TryCatchFinallyCommandTest.java)
 	
-The TryCatchFinallyCommand class is similar to RecoverableCommand class, but it allows execution of a command (FinallyCommand) regardless of failure or success of the Core command. Whether an ExtensibleCommandsException is generated within the Execute() method of the Core command, or not, FinallyCommand will be executed. This scenario is useful if a certain operation (such as a return to a safe state, for example) is needed regardless of the overall command outcome.
+The TryCatchFinallyCommand class is similar to RecoverableCommand class, but it allows the execution of a command (FinallyCommand) regardless of the failure or success of the Core command. Whether an ExtensibleCommandsException is generated within the Execute() method of the Core command, or not, FinallyCommand will be executed. This scenario is useful if a certain operation (such as a return to a safe state, for example) is needed regardless of the overall command outcome.
 	
 ```
 var coreCommand = new SimpleCommand(DoSomething);
@@ -241,7 +241,7 @@ var initCommand = new SimpleCommand(() => counter = 0);
 var whileCommand = new WhileCommand(() => counter < 5, initCommand, coreCommand, "While Command");
 ```
 																				
-Initial command is optional. If it is not supplied (i.e. = NULL), then command will start with the next step, which is a predicate evaluation.
+The initial command is optional. If it is not supplied (i.e. = NULL), then the command will start with the next step, which is a predicate evaluation.
 
 ![Figure 15](Figures/Figure15.png)
 						      
@@ -254,7 +254,7 @@ Figure 15. While command flowchart.
 						
 The AbortableCommand class is important for implementing atomic operations that may need to be aborted before they are completed. For example, an operation on a hardware device may take a long time to complete and may need to be aborted quickly due to safety reasons. The AbortableCommand class allows convenient packaging of such operations.
 							
-First, there needs to be defined Abort() method that actually terminates whatever operation is implemented in the Core command. Then, an Abortable command can be defined:
+First, the Abort() method that terminates whatever operation is implemented in the Core command needs to be defined. Then, an Abortable command can be defined:
 														
 ```
 var coreCommand = new SimpleCommand(DoSomething);
@@ -262,7 +262,7 @@ var abortableCommand = new AbortableCommand(new ExtensibleCommandsException(0, "
     coreCommand, 5000, Abort, "Abortable command test");
 ```
 						
-If during the execution of the Core command, Abortable command is aborted (by externally or internally calling Abort()method of the AbortableCommand object) it will transition to Aborted state. Its parent command will handle this situation gracefully, and will also transition to Aborted state. Similarly, if a parent command of any level is aborted, Abortable command will be aborted by invoking its Abort()method.
+If during the execution of the Core command, the Abortable command is aborted (by externally or internally calling the Abort()method of the AbortableCommand object) it will transition to the Aborted state. Its parent command will handle this situation gracefully, and will also transition to the Aborted state. Similarly, if a parent command of any level is aborted, the Abortable command will be aborted by invoking its Abort()method.
 							
 If an Abortable command is aborted, it cannot be resumed and will need to be run again. This is handled by Stop/Resume/Abort mechanism automatically.
 						      
