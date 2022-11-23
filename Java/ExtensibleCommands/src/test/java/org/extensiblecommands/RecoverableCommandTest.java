@@ -68,13 +68,14 @@ public class RecoverableCommandTest {
 
     @Test
     public void runCriticalErrorTest() throws Exception {
-        // If normal exception is thrown, the command should fail without excercising recovery command
+        // If an ExtensibleCommandsException is thrown, the command fails without exercising the recovery command
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var recoveryCommand = new SimpleCommand(() -> { }, "Recovery");
         var command = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 
         Setup.runAndWaitForFailure(command);
 
+        Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Idle, recoveryCommand.getState());
 
@@ -84,13 +85,14 @@ public class RecoverableCommandTest {
 
     @Test
     public void runNonCriticalErrorTest1() throws Exception {
-        // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should succeed after excercising recovery command
+        // If an ExtensibleCommandsAllowRecoveryException is thrown, the command succeeds after exercising the recovery command
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var recoveryCommand = new SimpleCommand(() -> { }, "Recovery");
         var command = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 
         Setup.runAndWaitForNormalCompletion(command);
 
+        Assert.assertEquals(State.Completed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Completed, recoveryCommand.getState());
 
@@ -100,13 +102,14 @@ public class RecoverableCommandTest {
 
     @Test
     public void runNonCriticalErrorTest2() throws Exception {
-        // If ExtensibleCommandsAllowRetryException exception is thrown, the command should succeed after excercising recovery command
+        // If an ExtensibleCommandsAllowRetryException is thrown, the command succeeds after exercising the recovery command
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var recoveryCommand = new SimpleCommand(() -> { }, "Recovery");
         var command = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 
         Setup.runAndWaitForNormalCompletion(command);
 
+        Assert.assertEquals(State.Completed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Completed, recoveryCommand.getState());
 
@@ -277,7 +280,7 @@ public class RecoverableCommandTest {
     private RecoverableCommand createRecoveryPauseAbortCommand(boolean stop) {
         var recoveryCommand = new SequentialCommand("Recovery")
             .add(new SimpleCommand(() -> { }, "S1"));
-        // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should succeed after excercising recovery command
+        // An ExtensibleCommandsAllowRecoveryException is thrown inside the Core command
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var recoverableCommand = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 

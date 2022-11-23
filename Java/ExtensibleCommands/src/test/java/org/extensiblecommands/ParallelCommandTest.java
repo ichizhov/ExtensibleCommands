@@ -292,7 +292,7 @@ public class ParallelCommandTest {
             .add(new SimpleCommand(() -> sleep(4*Setup.ThreadLatencyDelayMsec), "P3-S3"));
 
         var command2 = new SequentialCommand("P6")
-            .add(new SimpleCommand(() -> sleep((int)(3*Setup.ThreadLatencyDelayMsec)), "P6-S1"));
+            .add(new SimpleCommand(() -> sleep(3*Setup.ThreadLatencyDelayMsec), "P6-S1"));
         command2.add(new SimpleCommand(() -> command.pause(), "P6-S2"));
         command2.add(new SimpleCommand(() -> sleep(Setup.ThreadLatencyDelayMsec), "P6-S3"));
 

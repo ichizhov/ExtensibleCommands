@@ -235,7 +235,7 @@ namespace ExtensibleCommandsUnitTest
             // Wait for user input
             var waitForConsoleInputCmd = new SimpleCommand(() => Console.ReadKey());
 
-            // Create sequence of the above 2 steps
+            // Create a sequence of the above 2 steps
             var sequentialCommand = new SequentialCommand();
             sequentialCommand.Add(helloWordlCmd).Add(waitForConsoleInputCmd);
 

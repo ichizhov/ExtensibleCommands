@@ -126,7 +126,7 @@ namespace ExtensibleCommandsUnitTest
             Assert.AreEqual(State.Completed, command.CurrentState);
             Assert.AreEqual(5, command.CurrentCycle);
 
-            // Without Init command
+            // Without the Init command
             command = CreateWhileCommand(false);
             _counter = 0;
             command.Run();
@@ -139,7 +139,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunErrorTest()
         {
-            // Error in Core command
+            // Error inside the Core command
             var whileCommand = CreateWhileCommandError(true);
             whileCommand.Run();
 
@@ -148,7 +148,7 @@ namespace ExtensibleCommandsUnitTest
             Assert.AreEqual(State.Failed, whileCommand.CurrentState);
             Assert.AreEqual(1, whileCommand.CurrentCycle);
 
-            // Error in Init command
+            // Error inside the Init command
             whileCommand = CreateWhileCommandError(false);
             _counter = 0;
             whileCommand.Run();

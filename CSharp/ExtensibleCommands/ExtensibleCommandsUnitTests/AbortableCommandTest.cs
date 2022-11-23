@@ -102,6 +102,18 @@ namespace ExtensibleCommandsUnitTest
             Assert.IsTrue(command.ElapsedTimeMsec > 80);
         }
 
+        [TestMethod()]
+        public void RunErrorTest()
+        {
+            var command = new AbortableCommand(new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }),
+               () => { }, "Test abortable command");
+
+            command.Run();
+
+            Assert.AreEqual(State.Failed, command.CurrentState);
+            Assert.AreEqual(State.Failed, command.CoreCommand.CurrentState);
+        }
+
         [TestMethod]
         public void PauseAndResumeTest()
         {

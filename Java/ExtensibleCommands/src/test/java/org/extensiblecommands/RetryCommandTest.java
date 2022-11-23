@@ -72,7 +72,7 @@ public class RetryCommandTest {
     @Test
     public void runCriticalErrorTest() throws Exception {
         counter = 0;
-        // If normal exception is thrown, the command should fail without excercising recovery command
+        // If an ExtensibleCommandsException is thrown, the command fails immediately without attempting retries
         var coreCommand = new SimpleCommand(() -> { counter++; throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var command = new RetryCommand(coreCommand, 10, 0, "Retry");
 
@@ -89,7 +89,7 @@ public class RetryCommandTest {
     @Test
     public void runNonCriticalErrorTest1() throws Exception {
         counter = 0;
-        // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should fail immediately, because recovery exception is higher in hierarchy
+        // If an ExtensibleCommandsAllowRecoveryException is thrown, the command fails immediately because the recovery exception is higher in the hierarchy
         var coreCommand = new SimpleCommand(() -> { counter++; throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var command = new RetryCommand(coreCommand, 10, 0, "Retry");
 
@@ -106,7 +106,7 @@ public class RetryCommandTest {
     @Test
     public void runNonCriticalErrorTest2() throws Exception {
         counter = 0;
-        // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should fail immediately, because recovery exception is higher in hierarchy
+        // If an ExtensibleCommandsAllowRetryException is thrown, the command exercises retries and fails only after finishing the last retry
         var coreCommand = new SimpleCommand(() -> { counter++; throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var command = new RetryCommand(coreCommand, 10, 0, "Retry");
 
@@ -172,8 +172,8 @@ public class RetryCommandTest {
 
     @Test
     public void externalAbortTest() throws Exception {
-        // This is the case when we do local abort on an command that failed.
-        // abort should be superseded by failure, i.e. no abort event will be issued.
+        // This is the case when we do local abort on a command that failed.
+        // Abort should be superseded by failure, i.e. no abort event will be issued.
         var coreCommand = new SimpleCommand(() -> {
             sleep(Setup.ThreadLatencyDelayMsec);
             throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription);
@@ -186,6 +186,7 @@ public class RetryCommandTest {
                 command.run();
             }
             catch (Exception e) {
+                // Ignore
             }
         }).start();
         sleep(Setup.ThreadLatencyDelayMsec);

@@ -73,7 +73,7 @@ public class WhileCommandTest {
         Assert.assertEquals(State.Completed, command.getState());
         Assert.assertEquals(5, command.getCurrentCycle());
 
-        // Without Init command
+        // Without the Init command
         command = createWhileCommand(false);
         counter = 0;    // not set by Init command
         command.run();
@@ -85,7 +85,7 @@ public class WhileCommandTest {
 
     @Test
     public void runErrorTest() throws Exception {
-        // Error in Core command
+        // Error inside the Core command
         var whileCommand = createWhileCommandError(true);
         whileCommand.run();
 
@@ -94,7 +94,7 @@ public class WhileCommandTest {
         Assert.assertEquals(State.Failed, whileCommand.getState());
         Assert.assertEquals(1, whileCommand.getCurrentCycle());
 
-        // Error in Init command
+        // Error inside the Init command
         whileCommand = createWhileCommandError(false);
         counter = 0;
         whileCommand.run();

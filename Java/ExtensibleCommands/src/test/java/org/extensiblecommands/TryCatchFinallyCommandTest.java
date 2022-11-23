@@ -71,7 +71,7 @@ public class TryCatchFinallyCommandTest {
 
     @Test
     public void runCoreCommandErrorTest1() throws Exception {
-        // If normal exception is thrown, the command should fail but Finally command should still execute
+        // If an ExtensibleCommandsAllowRecoveryException is thrown inside the Core command, the Finally command executes but the command fails
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var finallyCommand = new SimpleCommand(() -> { }, "Finally");
         var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -81,11 +81,14 @@ public class TryCatchFinallyCommandTest {
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Completed, finallyCommand.getState());
+
+        Assert.assertEquals(Setup.TestErrorCode, command.getException().getId());
+        Assert.assertEquals(Setup.TestErrorDescription, command.getException().getText());
     }
 
     @Test
     public void runCoreCommandErrorTest2() throws Exception {
-        // If normal exception is thrown, the command should fail but Finally command should still execute
+        // If an ExtensibleCommandsAllowRecoveryException is thrown inside the Core command, the Finally command executes but the command fails
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var finallyCommand = new SimpleCommand(() -> { }, "Finally");
         var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -95,11 +98,14 @@ public class TryCatchFinallyCommandTest {
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Completed, finallyCommand.getState());
+
+        Assert.assertEquals(Setup.TestErrorCode, command.getException().getId());
+        Assert.assertEquals(Setup.TestErrorDescription, command.getException().getText());
     }
 
     @Test
     public void runCoreCommandErrorTest3() throws Exception {
-        // If normal exception is thrown, the command should fail but Finally command should still execute
+        // If an ExtensibleCommandsException is thrown inside the Core command, the Finally command executes but the command fails
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var finallyCommand = new SimpleCommand(() -> { }, "Finally");
         var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -109,11 +115,14 @@ public class TryCatchFinallyCommandTest {
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Completed, finallyCommand.getState());
+
+        Assert.assertEquals(Setup.TestErrorCode, command.getException().getId());
+        Assert.assertEquals(Setup.TestErrorDescription, command.getException().getText());
     }
 
     @Test
     public void runFinallyCommandErrorTest() throws Exception {
-        // If normal exception is thrown, the command should fail but Finally command should still execute
+        // If the Core command completes successfully and an ExtensibleCommandsException is thrown inside the Finally command, the command fails
         var coreCommand = new SimpleCommand(() -> {}, "Core");
         var finallyCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Finally");
         var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -123,6 +132,9 @@ public class TryCatchFinallyCommandTest {
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Completed, coreCommand.getState());
         Assert.assertEquals(State.Failed, finallyCommand.getState());
+
+        Assert.assertEquals(Setup.TestErrorCode, command.getException().getId());
+        Assert.assertEquals(Setup.TestErrorDescription, command.getException().getText());
     }
 
     @Test
@@ -137,6 +149,9 @@ public class TryCatchFinallyCommandTest {
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, coreCommand.getState());
         Assert.assertEquals(State.Failed, finallyCommand.getState());
+
+        Assert.assertEquals(Setup.TestErrorCode, command.getException().getId());
+        Assert.assertEquals(Setup.TestErrorDescription, command.getException().getText());
     }
 
     @Test
@@ -193,9 +208,9 @@ public class TryCatchFinallyCommandTest {
     public void abortFinallyTest() throws Exception {
         var command = createFinallyPauseAbortCommand(false);
 
-        // This is pecial case, the whole command fails because the Core acton failed despite the abort during Finally command
         Setup.runAndWaitForAbort(command);
 
+        // The command fails because the Core command failed and the Finally command did not have a chance to complete because it was aborted
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, command.getCoreCommand().getState());
         Assert.assertEquals(State.Aborted, command.getFinallyCommand().getState());
@@ -250,9 +265,10 @@ public class TryCatchFinallyCommandTest {
 
     @Test
     public void externalAbortTest() throws Exception {
-        // If ExtensibleCommandsException exception is thrown in the Core command, the command should still be aborted
+        // An ExtensibleCommandsException exception is thrown inside the Core command, and the command is aborted
+        // before the Finally command gets executed
         var coreCommand = new SimpleCommand(() -> {
-            sleep(2 * Setup.ThreadLatencyDelayMsec);
+            sleep(3 * Setup.ThreadLatencyDelayMsec);
             throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription);
             }, "Core");
         var finallyCommand = new SimpleCommand(() -> { }, "Finally");
@@ -262,6 +278,7 @@ public class TryCatchFinallyCommandTest {
 
         Assert.assertEquals(State.Failed, command.getState());
         Assert.assertEquals(State.Failed, command.getCoreCommand().getState());
+        Assert.assertEquals(State.Idle, command.getFinallyCommand().getState());
     }
 
     @Test
@@ -318,16 +335,17 @@ public class TryCatchFinallyCommandTest {
     }
 
     private TryCatchFinallyCommand createFinallyPauseAbortCommand(boolean pause) {
-        // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should succeed after excercising recovery command
+        // Throw an ExtensibleCommandsException inside the Core command
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
         var finallyCommand = new SequentialCommand("Recovery")
             .add(new SimpleCommand(() -> { }, "S1"));
         var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
 
+        // Pause or Abort inside the Finally command
         if (pause)
             finallyCommand.add(new SimpleCommand(() -> command.pause(), "S2-Stop"));
-            else
-        finallyCommand.add(new SimpleCommand(() -> command.abort(), "S2-abort"));
+        else
+            finallyCommand.add(new SimpleCommand(() -> command.abort(), "S2-abort"));
 
         finallyCommand.add(new SimpleCommand(() -> { }, "S3"));
         return command;

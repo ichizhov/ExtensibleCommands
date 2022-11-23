@@ -123,7 +123,7 @@ namespace ExtensibleCommandsUnitTest
         public void RunCriticalErrorTest()
         {
             _counter = 0;
-            // If normal exception is thrown, the command should fail without excercising recovery command
+            // If an ExtensibleCommandsException is thrown, the command fails immediately without attempting retries
             var coreCommand = new SimpleCommand(() => { _counter++; throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var command = new RetryCommand(coreCommand, 10, 0, "Retry");
 
@@ -141,7 +141,7 @@ namespace ExtensibleCommandsUnitTest
         public void RunNonCriticalErrorTest1()
         {
             _counter = 0;
-            // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should fail immediately, because recovery exception is higher in hierarchy
+            // If an ExtensibleCommandsAllowRecoveryException is thrown, the command fails immediately because the recovery exception is higher in the hierarchy
             var coreCommand = new SimpleCommand(() => { _counter++; throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var command = new RetryCommand(coreCommand, 10, 0, "Retry");
 
@@ -159,7 +159,7 @@ namespace ExtensibleCommandsUnitTest
         public void RunNonCriticalErrorTest2()
         {
             _counter = 0;
-            // If ExtensibleCommandsAllowRetryException exception is thrown, the command should succeed after excercising recovery command
+            // If an ExtensibleCommandsAllowRetryException is thrown, the command exercises retries and fails only after finishing the last retry
             var coreCommand = new SimpleCommand(() => { _counter++; throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var command = new RetryCommand(coreCommand, 10, 0, "Retry");
 
@@ -234,7 +234,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void ExternalAbortTest()
         {
-            // This is the case when we do local abort on an command that failed.
+            // This is the case when we do local abort on a command that failed.
             // Abort should be superseded by failure, i.e. no abort event will be issued.
             var coreCommand = new SimpleCommand(() =>
             {

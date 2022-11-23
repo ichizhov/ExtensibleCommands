@@ -55,7 +55,6 @@ public class CyclicCommandTest {
 
     @Test
     public void runErrorTest() throws Exception {
-        // If normal exception is thrown, the command should fail without excercising recovery command
         var coreCommand = new SimpleCommand(() -> { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); });
         var command = new CyclicCommand(coreCommand, 3);
 

@@ -130,7 +130,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunCoreCommandErrorTest1()
         {
-            // If normal exception is thrown, the command should fail but Finally command should still execute
+            // If an ExtensibleCommandsAllowRecoveryException is thrown inside the Core command, the Finally command executes but the command fails
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var finallyCommand = new SimpleCommand(() => { }, "Finally");
             var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -148,7 +148,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunCoreCommandErrorTest2()
         {
-            // If normal exception is thrown, the command should fail but Finally command should still execute
+            // If an ExtensibleCommandsAllowRecoveryException is thrown inside the Core command, the Finally command executes but the command fails
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var finallyCommand = new SimpleCommand(() => { }, "Finally");
             var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -166,7 +166,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunCoreCommandErrorTest3()
         {
-            // If normal exception is thrown, the command should fail but Finally command should still execute
+            // If an ExtensibleCommandsException is thrown inside the Core command, the Finally command executes but the command fails
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var finallyCommand = new SimpleCommand(() => { }, "Finally");
             var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -184,7 +184,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunFinallyCommandErrorTest()
         {
-            // If normal exception is thrown, the command should fail but Finally command should still execute
+            // If the Core command completes successfully and an ExtensibleCommandsException is thrown inside the Finally command, the command fails
             var coreCommand = new SimpleCommand(() => {}, "Core");
             var finallyCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Finally");
             var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -202,7 +202,7 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunCoreAndFinallyCommandErrorTest()
         {
-            // If normal exception is thrown, the command should fail but Finally command should still execute
+            // If an ExtensibleCommandsException is thrown inside both the Core and the Finally commands, the command fails
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var finallyCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Finally");
             var command = new TryCatchFinallyCommand(coreCommand, finallyCommand, "Try-Catch-Finally");
@@ -277,9 +277,9 @@ namespace ExtensibleCommandsUnitTest
         {
             var command = CreateFinallyPauseAbortCommand(false);
 
-            // This is pecial case, the whole command fails because the Core acton failed despite the abort during Finally command
             Setup.RunAndWaitForAbort(command);
 
+            // The command fails because the Core command failed and the Finally command did not have a chance to complete because it was aborted
             Assert.AreEqual(State.Failed, command.CurrentState);
             Assert.AreEqual(State.Failed, command.CoreCommand.CurrentState);
             Assert.AreEqual(State.Aborted, command.FinallyCommand.CurrentState);
@@ -339,10 +339,11 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void ExternalAbortTest()
         {
-            // If ExtensibleCommandsException exception is thrown in the Core command, the command should still be aborted
+            // An ExtensibleCommandsException exception is thrown inside the Core command, and the command is aborted
+            // before the Finally command gets executed
             var coreCommand = new SimpleCommand(() =>
             {
-                Thread.Sleep(2 * Setup.ThreadLatencyDelayMsec);
+                Thread.Sleep(3 * Setup.ThreadLatencyDelayMsec);
                 throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription);
             }, "Core");
             var finallyCommand = new SimpleCommand(() => { }, "Finally");
@@ -351,6 +352,7 @@ namespace ExtensibleCommandsUnitTest
             Setup.RunAndAbort(command);
             Assert.AreEqual(State.Failed, command.CurrentState);
             Assert.AreEqual(State.Failed, command.CoreCommand.CurrentState);
+            Assert.AreEqual(State.Idle, command.FinallyCommand.CurrentState);
         }
 
         [TestMethod()]
@@ -413,9 +415,10 @@ namespace ExtensibleCommandsUnitTest
         private TryCatchFinallyCommand CreateFinallyPauseAbortCommand(bool pause)
         {
             TryCatchFinallyCommand command = null;
-            // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should succeed after excercising recovery command
+            // Throw an ExtensibleCommandsException inside the Core command
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
 
+            // Pause or Abort inside the Finally command
             var finallyCommand = new SequentialCommand("Recovery");
             finallyCommand.Add(new SimpleCommand(() => { }, "S1"));
 

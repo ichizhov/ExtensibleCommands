@@ -105,7 +105,6 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunErrorTest()
         {
-            // If normal exception is thrown, the command should fail without excercising recovery command
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); });
             var command = new CyclicCommand(coreCommand, 3);
 

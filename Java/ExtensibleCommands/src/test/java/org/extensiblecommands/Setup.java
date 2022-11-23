@@ -27,9 +27,9 @@ public class Setup {
     }
 
     /**
-     * Execute command and wait for its completion
+     * Execute a command and wait for its completion
      * @param command               Command to run
-     * @throws Exception
+     * @throws Exception            Exception
      */
     public static void runAndWaitForNormalCompletion(Command command) throws Exception {
         command.resetFinished();
@@ -42,14 +42,14 @@ public class Setup {
             }
         }).start();
 
-        // Wait for sync command to be completed
+        // Wait for the command to be completed
         command.waitUntilFinished(WaitTimeoutMsec);
     }
 
     /**
-     * Execute command and wait for its failure
+     * Execute a command and wait for its failure
      * @param command               Command to run
-     * @throws Exception
+     * @throws Exception            Exception
      */
     public static void runAndWaitForFailure(Command command) throws Exception {
 
@@ -69,7 +69,7 @@ public class Setup {
                 }
             }).start();
 
-            // Wait for sync command to be completed
+            // Wait for the command to be completed
             command.waitUntilFinished(WaitTimeoutMsec);
 
             Assert.assertEquals(State.Failed, command.getState());
@@ -83,11 +83,11 @@ public class Setup {
     }
 
     /**
-     * Runs the supplied command asynchronously, pauses it and then resumes.
+     * Runs the supplied command asynchronously, pauses it, and then resumes.
      * Relies on the supplied command to pause itself.
      * @param command               Command to run
      * @param assertAfterPause      Assertion to execute after pause
-     * @throws Exception
+     * @throws Exception            Exception
      */
     public static void pauseAndResume(Command command, ExecutionDelegate assertAfterPause) throws Exception {
         command.resetFinished();
@@ -112,16 +112,16 @@ public class Setup {
 
         sleep(ThreadLatencyDelayMsec);
 
-        // Wait for sync command to be completed
+        // Wait for the command to be completed
         command.waitUntilFinished(3*WaitTimeoutMsec);
     }
 
     /**
-     * Runs the supplied command asynchronously, pauses it and then aborts.
-     * Relies on timing of the supplied command to pause itself.
+     * Runs the supplied command asynchronously, pauses it, and then aborts.
+     * Relies on the timing of the supplied command to pause itself.
      * @param command               Command to run
      * @param assertAfterPause      Assertion to execute after pause
-     * @throws Exception
+     * @throws Exception            Exception
      */
     public static void pauseAndAbort(Command command, ExecutionDelegate assertAfterPause) throws Exception {
         command.resetFinished();
@@ -142,7 +142,7 @@ public class Setup {
 
         command.abort();
 
-        // Wait for sync command to be completed
+        // Wait for the command to be completed
         command.waitUntilFinished(WaitTimeoutMsec);
     }
 
@@ -150,7 +150,7 @@ public class Setup {
      * Runs the supplied command asynchronously and then aborts it.
      * The supplied command must have the correct timing consistent with the delays in this method!
      * @param command               Command to run
-     * @throws Exception
+     * @throws Exception            Exception
      */
     public static void runAndAbort(Command command) throws Exception {
         command.resetFinished();
@@ -173,7 +173,7 @@ public class Setup {
      * Runs the supplied command and waits for the command to be aborted.
      * Relies on the supplied command to abort itself.
      * @param command               Command to run
-     * @throws Exception
+     * @throws Exception            Exception
      */
     public static void runAndWaitForAbort(Command command) throws Exception {
         command.resetFinished();
@@ -187,7 +187,7 @@ public class Setup {
         }).start();
         sleep(2*ThreadLatencyDelayMsec);
 
-        // Wait for sync command to be completed
+        // Wait for the command to be completed
         command.waitUntilFinished(WaitTimeoutMsec);
     }
 

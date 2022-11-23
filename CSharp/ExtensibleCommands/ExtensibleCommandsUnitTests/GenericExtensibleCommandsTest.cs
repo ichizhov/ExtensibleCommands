@@ -239,7 +239,7 @@ namespace ExtensibleCommandsUnitTest
             var initMoveZAxisCommand = new AbortableCommand(new SimpleCommand(() => mc.Move("Z", 0.0)),
             mc.Abort, "Init Move Z");
 
-            // Define an command to do a parallel home and intial move of all 3 axes
+            // Define a command to do a parallel home and initial move of all 3 axes
             var homeAndMoveCommand = new ParallelCommand("Parallel Home and Move")
                 .Add(new SequentialCommand("Home and Move X")
                         .Add(homeXAxisRetryCommand)
@@ -251,7 +251,7 @@ namespace ExtensibleCommandsUnitTest
                         .Add(homeZAxisRetryCommand)
                         .Add(initMoveZAxisCommand));
 
-            // Define an command to log stage initialization record
+            // Define a command to log stage initialization record
             var logRecordCommand = new SimpleCommand(() => { /* Add logging! */}, "Log record");
 
             // Define a complete Stage Initialization command

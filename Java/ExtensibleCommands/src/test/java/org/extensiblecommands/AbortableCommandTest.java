@@ -57,6 +57,17 @@ public class AbortableCommandTest {
     }
 
     @Test
+    public void runErrorTest() throws Exception {
+        var command = new AbortableCommand(new SimpleCommand(() -> { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }),
+            () -> { }, "Test abortable command");
+
+        command.run();
+
+        Assert.assertEquals(State.Failed, command.getState());
+        Assert.assertEquals(State.Failed, command.getCoreCommand().getState());
+    }
+
+    @Test
     public void pauseAndResumeTest() throws Exception {
         var command = createAbortableCommand();
         command.resetFinished();

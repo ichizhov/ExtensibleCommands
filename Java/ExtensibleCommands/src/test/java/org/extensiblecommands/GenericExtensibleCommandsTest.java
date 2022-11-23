@@ -172,7 +172,7 @@ public class GenericExtensibleCommandsTest {
         var initMoveZAxisCommand = new AbortableCommand(new SimpleCommand(() -> mc.move("Z", 0.0)),
         () -> mc.abort(), "Init move Z");
 
-        // Define an command to do a parallel home and intial move of all 3 axes
+        // Define a command to do a parallel home and initial move of all 3 axes
         var homeAndMoveCommand = new ParallelCommand("Parallel home and move")
                 .add(new SequentialCommand("home and move X")
                         .add(homeXAxisRetryCommand)
@@ -184,7 +184,7 @@ public class GenericExtensibleCommandsTest {
                         .add(homeZAxisRetryCommand)
                         .add(initMoveZAxisCommand));
 
-        // Define an command to log stage initialization record
+        // Define a command to log stage initialization record
         var logRecordCommand = new SimpleCommand(() -> { /* Add logging! */}, "Log record");
 
         // Define a complete Stage Initialization command
@@ -217,21 +217,5 @@ public class GenericExtensibleCommandsTest {
         Assert.assertEquals(-9.999, cmd.getActualPosition().X, 0.001);
         Assert.assertEquals(23.001, cmd.getActualPosition().Y, 0.001);
         Assert.assertEquals(-2.999, cmd.getActualPosition().Z, 0.001);
-    }
-
-    public void HelloWorldTest() throws Exception {
-        // Output string to console
-        var helloWordlCmd = new SimpleCommandI<String>(input -> System.out.println(input), "Hello World\n");
-
-        // Wait for user input
-        var waitForConsoleInputCmd = new SimpleCommand(() -> System.in.read());
-
-        // Create sequence of the above 2 steps
-        var sequentialCommand = new SequentialCommand();
-        sequentialCommand.add(helloWordlCmd).add(waitForConsoleInputCmd);
-
-        // Supply input and run sequence
-        helloWordlCmd.setInput("Hello World!");
-        sequentialCommand.run();
     }
 }

@@ -121,13 +121,14 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunCriticalErrorTest()
         {
-            // If normal exception is thrown, the command should fail without excercising recovery command
+            // If an ExtensibleCommandsException is thrown, the command fails without exercising the recovery command
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var recoveryCommand = new SimpleCommand(() => { }, "Recovery");
             var command = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 
             Setup.RunAndWaitForFailure(command);
 
+            Assert.AreEqual(State.Failed, command.CurrentState);
             Assert.AreEqual(State.Failed, coreCommand.CurrentState);
             Assert.AreEqual(State.Idle, recoveryCommand.CurrentState);
 
@@ -138,13 +139,14 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunNonCriticalErrorTest1()
         {
-            // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should succeed after excercising recovery command
+            // If an ExtensibleCommandsAllowRecoveryException is thrown, the command succeeds after exercising the recovery command
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var recoveryCommand = new SimpleCommand(() => { }, "Recovery");
             var command = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 
             Setup.RunAndWaitForNormalCompletion(command);
 
+            Assert.AreEqual(State.Completed, command.CurrentState);
             Assert.AreEqual(State.Failed, coreCommand.CurrentState);
             Assert.AreEqual(State.Completed, recoveryCommand.CurrentState);
 
@@ -155,13 +157,14 @@ namespace ExtensibleCommandsUnitTest
         [TestMethod()]
         public void RunNonCriticalErrorTest2()
         {
-            // If ExtensibleCommandsAllowRetryException exception is thrown, the command should succeed after excercising recovery command
+            // If an ExtensibleCommandsAllowRetryException is thrown, the command succeeds after exercising the recovery command
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsAllowRetryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var recoveryCommand = new SimpleCommand(() => { }, "Recovery");
             var command = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 
             Setup.RunAndWaitForNormalCompletion(command);
 
+            Assert.AreEqual(State.Completed, command.CurrentState);
             Assert.AreEqual(State.Failed, coreCommand.CurrentState);
             Assert.AreEqual(State.Completed, recoveryCommand.CurrentState);
 
@@ -345,7 +348,7 @@ namespace ExtensibleCommandsUnitTest
         private RecoverableCommand CreateRecoveryPauseAbortCommand(bool stop)
         {
             var recoveryCommand = new SequentialCommand("Recovery");
-            // If ExtensibleCommandsAllowRecoveryException exception is thrown, the command should succeed after excercising recovery command
+            // An ExtensibleCommandsAllowRecoveryException is thrown inside the Core command
             var coreCommand = new SimpleCommand(() => { throw new ExtensibleCommandsAllowRecoveryException(Setup.TestErrorCode, Setup.TestErrorDescription); }, "Core");
             var recoverableCommand = new RecoverableCommand(coreCommand, recoveryCommand, "Recoverable");
 

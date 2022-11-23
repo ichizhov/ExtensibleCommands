@@ -37,6 +37,7 @@ public class SequentialCommandTest {
                 command.run();
             }
             catch (Exception e) {
+                // Ignore
             }
         }).start();
         sleep((int)(0.5*Setup.ThreadLatencyDelayMsec));
