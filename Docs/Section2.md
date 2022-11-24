@@ -20,7 +20,7 @@ The Extensible Commands library offers a set of classes using a combination of t
    
 ## 2.1. Advantages and applicability area of Extensible Commands.
 
-Extensible Commands targets a set of problems that are common but not limited to machine control software. It is designed to simplify software architecture and development by moving a set of functionalities to the framework level that can be developed and tested separately and then re-used with confidence across the application code base.
+Extensible Commands targets a set of problems that are common but not limited to machine control software. It is designed to simplify software architecture and development by moving a set of functionalities to the framework level that can be developed and tested separately and then reused with confidence across the application code base.
 
 Specifically, Extensible Commands provides abstraction in the following areas:
 1)	Failure handling.
@@ -36,7 +36,7 @@ Extensible Commands can be “mixed and matched” with any software architectur
 
 Software applications that deal with relatively short, simple, or rarely changing sequences and failure scenarios are likely to be burdened by the Extensible Commands approach rather than benefit from it. 
 
-Some disadvantages must be taken into account before adopting an Extensible Commands-like approach for an application’s design.
+Some disadvantages must be taken into account before adopting the Extensible Commands approach in the application’s design.
 1)	Execution path involves additional infrastructure layers.
    - It will be more difficult to trace the execution path through the code in the debugger due to additional command infrastructural code. Breakpoints at strategic junctions and Extensible Commands logging should help.
 2)	Command parameters.

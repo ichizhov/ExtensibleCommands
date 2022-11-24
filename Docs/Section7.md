@@ -23,11 +23,11 @@ A natural way to develop an application based on Extensible Commands is to progr
 
 ## 7.2. Possible future development of Extensible Commands.
 
-The described version of the Extensible Commands is trimmed down to a very basic level and many potential additions were removed or not pursued in favor of keeping the library relatively small and simple. This section discusses some of the features that may be implemented if the Extensible Commands library can is modified and/or extended to address problems and requirements of specific software applications. 
+The described version of the Extensible Commands is trimmed down to a very basic level and many potential additions were removed or not pursued in favor of keeping the library relatively small and simple. This section discusses some of the features that may be implemented if the Extensible Commands library is modified and/or extended to address problems and requirements of specific software applications. 
 
-Most of the functionality described in this section requires modification of the library code. These modifications could be a part of the continuous development of the library or branched off and modified specifically for the application. In C# there is also a possibility to create extension methods that allow adding new functionality to classes without modifying their code. However, in Java, there is no such option, and Extensible Commands code modification is necessary.
+Most of the functionality described in this section requires modifications of the library code. These modifications could be a part of the continuous development of the library or branched off and modified specifically for the application. In C# there is also a possibility to create extension methods that allow adding new functionality to classes without modifying their code. However, in Java, there is no such option, and Extensible Commands code modification is necessary.
 
-The features described here would be more difficult to implement alternatively, especially to introduce them into an already existing application.
+The features described here would be more difficult to implement alternatively, and especially to introduce them into an already existing application.
 
 ### 7.2.1. Estimation and measurement of execution time.
 
@@ -36,10 +36,10 @@ One interesting aspect of machine control  software application is measuring, es
 -	tracking variability of operations and detecting abnormal changes in the execution time (such as slowing down);
 -	dynamic correction of execution time estimates based on actually measured execution time.
 
-In the absence of Extensible Commands, one may need to implement some way to measure time intervals via stopwatch or another language framework construct, and then introduce start/stop statements throughout the code. To collect statistics, the time information must be channeled from all these points in the code to a central entity that calculates the statistics and makes some decisions, or possibly, do the same work in the code implementing the operations.
+In the absence of Extensible Commands, one may need to implement some way to measure time intervals via stopwatch or another language framework construct, and then introduce start/stop statements throughout the code. To collect statistics, the time information must be channeled from all these points in the code to a central entity that calculates the statistics and makes some decisions, or possibly, the same work must be done in the code implementing the operations.
 
 With the Extensible Commands library, there are much better options. One way to do this would be to:
-1) Add GetEstimatedTime() method to the Command class and implement it for every standard command in the library in a recursive fashion (i.e. estimated time of a composite command would be calculated based on the estimated times of its children).
+1) Add GetEstimatedTime() method to the Command class and implement it for every standard command in the library in a recursive fashion (i.e. estimated time of a Composite command would be calculated based on the estimated times of its children).
 - For example, an estimated time of a Sequential command would be the sum of the estimated times of its sub-commands.
 - Similarly, an estimated time of a Parallel command would be the largest estimated time of its sub-commands (perhaps, plus some empirical constant buffer time to account for thread management), etc.
 - Ultimately, every custom low-level command would have to implement its own estimation method based on the specific operation and its parameters. 
@@ -55,14 +55,14 @@ One of the common requirements in machine control applications is preventing con
 
 Extensible Commands can be utilized to provide a straightforward solution to these requirements. One possible implementation would involve the following:
 1) Modify Command classes to include a list of used resources/components. For SimpleCommand classes, this list represents the actual resources and can be supplied at construction time. For other classes, the lists can be aggregated recursively from descendant commands.
-2) Modify the Command class to include a delegate for reservation check. This delegate would take a list of resources used by this command and return the result of the reservation check. The reservation check will be performed at the beginning of the execution.
+2) Modify the Command class to include a delegate for a reservation check. This delegate would take a list of resources used by this command and return the result of the reservation check. The reservation check will be performed at the beginning of the execution.
 3) Implement a centralized class that would keep a list of currently used resources and the reservation check function described in (2).
 
 ### 7.2.3. Selective pause or abort.
 
 One interesting feature that may be easily implemented using Extensible Commands is the selective pause or abort of some specific operations. When an abnormal situation occurs, it may be necessary to pause or abort certain operations based on the specifics of that abnormal situation. For example, if a danger of mechanical collision is detected, all motion-related commands could be paused or aborted, while other unrelated commands may proceed.
 
-With Extensible Commands, a possible implementation of such behavior would involve identifying categories of operations that would require such special Pause/Abort handling and distinguishing them by either ensuring that they are of the same command type, or have a special property. Provided references to all currently executing commands are stored and available, at failure time it is possible to examine all descendant commands of all currently executing commands, find which ones have not been completed yet, and determine if any of them would require pause or abort. This approach is scalable, and would not require any new code when new commands are implemented.
+With Extensible Commands, a possible implementation of such behavior would involve identifying categories of operations that would require such special Pause/Abort handling and distinguishing them by either ensuring that they are of the same command type, or have a special property. Provided references to all currently executing commands of importance are stored and available, at failure time it is possible to examine all descendant commands of all currently executing commands, find which ones have not been completed yet, and determine if any of them would require pause or abort. This approach is scalable, and would not require any new code when new commands are implemented.
 
 [[Previous section]](Section6.md)          
 

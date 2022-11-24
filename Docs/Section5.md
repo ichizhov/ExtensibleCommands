@@ -11,11 +11,12 @@ This section shows how to apply Extensible Commands to actual software developme
 [[C# unit tests]](../CSharp/ExtensibleCommands/ExtensibleCommandsUnitTests/GenericExtensibleCommandsTest.cs) [[Java unit tests]](../Java/ExtensibleCommands/src/test/java/org/extensiblecommands/GenericExtensibleCommandsTest.java)
 
 As the first example let’s consider how to implement an initialization sequence for a mechanical stage with 3 degrees of freedom using Extensible Commands. The stage has 3 axes (X, Y, and Z) that need to be homed and then positioned at a pre-defined initial location. Homing is not 100% reliable, so it needs to be retried 2 times if it fails initially. Axes can move independently. At the end of the sequence, a log record is created. A flowchart describing the sequence is shown in Figure 17.
-To represent this flowchart as a command, we need to extract the steps where the actual work is done and the steps responsible for flow control logic.
 
 ![Figure 17](Figures/Figure17.png)
 
 Figure 17. Stage Initialization sequence flowchart.
+
+To represent this flowchart as a command, we need to extract the steps where the actual work is done and the steps responsible for flow control logic.
 
 The steps where the work is done are:
 1) Initialize stage parameters.
@@ -95,7 +96,7 @@ Due to the nature of the command pattern approach, parameters can be passed into
 
 [Section 4.1](Section4.md) described the simplest usage of parameters by explicitly setting input and retrieving output for SimpleCommandI<TInput> and SimpleCommandIO<TInput, TOutput> classes. In practical applications, this approach is not sufficient. It is necessary to be able to use these command objects not only as stand-alone commands but also as building blocks in more complex commands without losing their ability to properly handle input and output parameters. This means that commands with parameters require special handling when used as part of a complex command, and there need to be additional steps to set input and retrieve output.
  
-In Extensible Commands in its current implementation, only SimpleCommand class has generic versions accepting input and output parameters. The rest of the command classes do not have input/output properties. Thus, to construct complex sequences in practice, one needs to create custom classes for commands that require input and outputs and are derived from one of the existing command classes. This is a recommended approach and it is illustrated in this section.
+In Extensible Commands in its current implementation, only the SimpleCommand class has generic versions accepting input and output parameters. The rest of the command classes do not have input/output properties. Thus, to construct complex sequences in practice, one needs to create custom classes for commands that require input and outputs and are derived from one of the existing command classes. This is a recommended approach and it is illustrated in this section.
  
 So, with this in mind, let's consider a simplified pattern search sequence. The goal of the sequence is to perform a search for a pre-defined pattern on a surface of a sample. It makes use of a Motion system to position an area of interest for inspection and a Vision system to perform a search for a pattern. As in the previous example, the Motion system controls the stage with 3 axes of freedom X, Y, and Z. The Vision system internally retrieves an object representing a pattern to be searched (by a string ID), acquires an image of the sample, and runs a pattern search algorithm on it.
  
@@ -113,13 +114,13 @@ The diagram in Figure 21 adds tags showing various input and output parameters a
  
 Figure 21. Pattern Search sequence flowchart with input and output parameters.
   
-Following the approach from the previous example, one can draw a command tree diagram as shown in  Figure 22.
+Following the approach from the previous example, one can draw a command tree diagram as shown in Figure 22.
 
 ![Figure 22](Figures/Figure22.png)
  
 Figure 22. Pattern Search sequence command tree.
   
-However, if the sequence code is based on this diagram, it will not be able to handle any of the parameters that are needed for the proper implementation of the sequence. As pointed out earlier, in Extensible Commands passing of the parameters in and out of sub-commands needs to be handled explicitly, and in a complex sequence sub-commands requiring input or output need to be "stitched" by other sub-commands, the sole purpose of which is to feed parameters in or out of specific sub-commands. This is illustrated by the next diagram (Figure 23).
+However, if the sequence code is based on this diagram, it will not be able to handle any of the parameters that are needed for the proper implementation of the sequence. As pointed out earlier, in Extensible Commands passing of the parameters in and out of sub-commands needs to be handled explicitly, and in a complex sequence sub-commands requiring input or output need to be "stitched" together by other sub-commands, the sole purpose of which is to feed parameters in or out of specific sub-commands. This is illustrated by the next diagram (Figure 23).
 
 ![Figure 23](Figures/Figure23.png)
  

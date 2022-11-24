@@ -6,9 +6,9 @@
 
 ## 3.1. Command hierarchy.
 
-All command classes belong to a unified hierarchical structure derived from an abstract base class Command which implements the ICommand interface (Figure 1). 
+All command classes belong to a unified hierarchical structure derived from the abstract base class Command which implements the ICommand interface (Figure 1). 
 
-This hierarchy is designed to provide a wide range of possibilities to construct very complex sequences of operations by building progressively more complex commands by combining all of the above types. Short summaries of each command class are provided in Table 1.
+This hierarchy is designed to provide a wide range of possibilities to construct very complex sequences of operations by building progressively more complex commands by combining all command types. Short summaries of each command class are provided in Table 1.
 
 In this document, specific commands are referred to either by a command class name (i.e. WhileCommand) or by a common description (i.e. While command). 
 
@@ -41,9 +41,9 @@ Table 1. Command classes.
 
 As was noted in [Section 2](Section2.md), the Extensible Commands approach combines Command, Decorator, and Composite patterns. This means that while command classes form an inheritance hierarchy, command objects form a containment hierarchy. In other words, command objects can contain other command objects (of any command type in the command class hierarchy). Thus, it is possible to construct complex commands containing multiple layers of other commands with arbitrary depth. This is the key principle of the Extensible Commands library design.
  
-It is not difficult to recognize that such a construct can be effectively visualized by a data structure well-known as a non-binary (or multi-furcating) tree (see Figure 2). In this representation, each command is a tree node, and containment relationships between commands are the links between the nodes. Adopting terms commonly used for the description of tree data structures, the higher of the two connected nodes will be called a parent, or a parent command, and the lower of the two - a child, or a child command. Any node belonging to a particular sub-tree would be a descendant, or a descendant command, of the root of that sub-tree. A node without children would be referred to as a leaf, or a leaf command. A complex command can thus be represented by a "command tree".
+It is not difficult to recognize that such a construct can be effectively visualized by a data structure well-known as a non-binary (or multi-furcating) tree (see Figure 2). In this representation, each command is a tree node, and containment relationships between commands are the links between the nodes. Adopting terms commonly used for the description of tree data structures, the higher of the two connected nodes will be called a parent, or a parent command, and the lower of the two - a child, or a child command. Any node belonging to a particular sub-tree would be a descendant, or a descendant command, of the root of that sub-tree. Similarly, any node that is a root of a sub-tree containing a particular node would be an ancestor of this node. A node without children would be referred to as a leaf, or a leaf command. A complex command can thus be represented by a "command tree".
  
-Hereafter in this document, the terms "parent command", "child command", "descendant command" and "leaf command" will be used to describe their relative place in the "command tree". To avoid confusion with inheritance relationships, the terms "base" and "derived" will be used exclusively to describe command class relationships, and the terms "parent" and "child" exclusively to describe command object relationships. The terms "child command" and "sub-command" will be used interchangeably. 
+Hereafter in this document, the terms "parent command", “ancestor command”, "child command", "descendant command", and "leaf command" will be used to describe their relative place in the "command tree". To avoid confusion with inheritance relationships, the terms "base" and "derived" will be used exclusively to describe command class relationships, and the terms "parent" and "child" exclusively to describe command object relationships. The terms "child command" and "sub-command" will be used interchangeably. 
 
 ![Figure 2](Figures/Figure2.png)
  
@@ -87,13 +87,13 @@ During its lifetime, every command object can be in one of the several states, a
 |---------------|---------------|
 |Idle|Command has been created, but not executed.|
 |Executing|Command is in the process of being executed.|
-|Failed|Command has been completed unsuccessfully, i.e. with an error. ExtensibleCommandsException has been thrown within the body of Execute() method.|
+|Failed|Command has been completed unsuccessfully, i.e. with an error. An ExtensibleCommandsException has been thrown within the body of the Execute() method.|
 |Completed|Command has been completed successfully.|
 |Aborted|Command has been aborted during its execution. It may not be resumed.|
  
 Table 3. Command states.
  
-If there are no errors, when a command is being executed it will pass through a sequence Idle -> Executing -> Completed (Failed, Aborted). It will remain in its final state until it is executed again, in which case the state will be reset to Idle just before execution. Every command may be executed an unlimited number of times during its lifetime. 
+When a command is executed it will pass through a sequence Idle -> Executing -> Completed (Failed, Aborted). It will remain in its final state until it is executed again, in which case the state will be reset to Idle just before execution. Every command may be executed an unlimited number of times during its lifetime. 
  
 If a command is not currently executing, it may be in any of the four states: Idle, Failed, Completed, or Aborted. The specific state depends on the history of this command and is not guaranteed to be one or the other at any given time.
 ![Figure 3](Figures/Figure3.png)
@@ -102,11 +102,11 @@ Figure 3. Command state diagram.
 
 ## 3.5. Error handling.
  
-One of the key advantages of Extensible Commands is the semi-automatic handling of exceptions. Every command object must define Execute() method that will be executed as part of running this command. For Composite commands, Execute() method is simply an iteration through Execute() methods of child commands. For Simple commands Execute() method needs to be defined programmatically.
+One of the key advantages of Extensible Commands is the semi-automatic handling of exceptions. Every command object must define an Execute() method that will be executed as part of running this command. For Composite commands, the Execute() method is simply an iteration through Execute() methods of child commands. For Simple commands, the Execute() method needs to be defined programmatically.
  
-Internally, Execute() method is launched from the Run() method that gets called either directly from the code, or from a parent command. Extensible Commands defines its own exception type, ExtensibleCommandsException, that is caught within every Run() method. Exceptions of other types (i.e. not derived from ExtensibleCommandsException) are not caught by the framework and will propagate outside of it. Once an ExtensibleCommandsException is caught, it is stored in the Exception property of the Command class, the command state is set to Failed, and the EventFailure event is generated. 
+Internally, the Execute() method is launched from the Run() method that gets called either directly from the code, or from a parent command. Extensible Commands defines its own exception type, ExtensibleCommandsException, that is caught within every Run() method. Exceptions of other types (i.e. not derived from ExtensibleCommandsException) are not caught by the framework and will propagate outside of it. Once an ExtensibleCommandsException is caught, it is stored in the Exception property of the Command class, the command state is set to Failed, and the EventFailure event is generated. 
  
-If the “offending” command is top-level (i.e. it is not invoked from another command), this is the end of the process. If it is a part of a Composite or a Decorator command, the error will bubble up to the parent command and further up until it reaches the top-level command while setting all of these parent commands to Failed state and generating EventFailure for each of these commands.  From there, any error processing module may easily subscribe to the Failed event on any command of interest and handle the error in accordance with the supplied error information, and with the requirements of the application.
+If the “offending” command is top-level (i.e. it is not invoked from another command), this is the end of the process. If it is a part of a Composite or a Decorator command, the error will bubble up to the parent command and further up through the ancestor commands until it reaches the top-level command while setting all of these ancestor commands to Failed state and generating EventFailure for each of these commands.  From there, any error processing module may easily subscribe to the Failed event on any command of interest and handle the error in accordance with the supplied error information, and with the requirements of the application.
  
 ![Figure 4](Figures/Figure4.png)
  
@@ -116,9 +116,9 @@ Figure 4. Error handling.
  
 In general, this functionality is difficult to add to the existing code, if it has not been planned from the beginning. To accept and gracefully react to an abort command at any time during the operation requires substantial efforts in design and development, as well as presents code maintenance issues. By virtue of its approach of considering any operation as a collection of individual building blocks with similar behavior, this functionality is supported in full “out of the box”. For operations implemented using Extensible Commands, there is no need to write any code to pause/resume and abort, which may represent a very significant value in terms of development efforts. 
  
-The ICommand interface defines (and Command class implements) methods Pause(), Resume(), and Abort() that are available to all derived classes. The implementation uses the composition property of the command classes and recursively iterates through the command’s sub-commands, invoking a required operation on each one. 
+The ICommand interface defines (and the Command class implements) methods Pause(), Resume(), and Abort() that are available to all derived classes. The implementation uses the composition aspect of the command classes and recursively iterates through the command’s sub-commands, invoking a required operation on each one. 
  
-Calling Pause() or Abort() on a command object does not guarantee an immediate result. These methods will set a flag internally, that will be checked at the next junction point between command objects in the execution path, and the command will be paused or aborted at that time. Depending on how a given process was broken down into atomic commands (i.e. SimpleCommand objects), the “reaction” time may vary quite a lot. If a very quick reaction is needed, the inclusion of AbortableCommand may be necessary which provides the capability of customizing Abort behavior and guaranteeing termination as soon as system resources allow at the moment of the Stop or Abort trigger.
+Calling Pause() or Abort() on a command object does not guarantee an immediate result. These methods will set a flag internally, that will be checked at the next junction point between command objects in the execution path, and the command will be paused or aborted at that time. Depending on how a given process was broken down into atomic commands (i.e. SimpleCommand objects), the reaction time may vary quite a lot. If a very quick reaction is needed, the inclusion of AbortableCommand may be necessary which provides the capability of customizing Abort behavior and guaranteeing termination as soon as system resources allow at the moment of the Stop or Abort trigger.
  
 If a command has been previously paused, calling Resume() on it will immediately cause the advancement of the execution to the next command object in the sequence.
  
