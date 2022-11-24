@@ -3,7 +3,7 @@
 namespace ExtensibleCommands
 {
     /// <summary> 
-    /// Implements static properties and methods that are applicable to generic Command behavior.
+    /// Implements Logging facade. An external logger must be supplied to perform the actual logging.
     /// </summary>
     public static class Logger
     {

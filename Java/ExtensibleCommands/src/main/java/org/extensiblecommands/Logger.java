@@ -4,8 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Static class representing an instance of Extensible Commands.
- * Implements static properties and methods that are applicable to generic Command behavior.
+ * Implements Logging facade. An external logger must be supplied to perform the actual logging.
  */
 public class Logger {
     /**
