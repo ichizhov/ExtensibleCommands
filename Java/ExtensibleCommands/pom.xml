@@ -6,11 +6,11 @@
 
   <groupId>io.github.ichizhov</groupId>
   <artifactId>extensiblecommands</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>Extensible Commands</name>
-  <description>Simple and efficient operational sequencing library.</description>
+  <description>Operational sequencing and real-time workflow automation library.</description>
   <url>https://github.com/ichizhov/ExtensibleCommands</url>
 
   <licenses>

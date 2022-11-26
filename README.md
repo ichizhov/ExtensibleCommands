@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/ichizhov/ExtensibleCommands/blob/main/LICENSE)
 [![Nuget](https://img.shields.io/nuget/v/ExtensibleCommands)](https://www.nuget.org/packages/ExtensibleCommands)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.ichizhov/extensiblecommands)](https://search.maven.org/artifact/io.github.ichizhov/extensiblecommands/1.0.0/jar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.ichizhov/extensiblecommands)](https://search.maven.org/artifact/io.github.ichizhov/extensiblecommands/1.0.1/jar)
 
 # Extensible Commands
 
@@ -58,7 +58,7 @@ To add Extensible Commands dependency to a Java project, add the following block
 <dependency> 
     <groupId>io.github.ichizhov</groupId> 
     <artifactId>extensiblecommands</artifactId> 
-    <version>1.1.0</version> 
+    <version>1.0.1</version> 
 </dependency> 
 ```
 
