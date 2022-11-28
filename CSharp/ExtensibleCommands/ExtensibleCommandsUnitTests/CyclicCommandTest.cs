@@ -99,7 +99,7 @@ namespace ExtensibleCommandsUnitTest
         {
             var command = CreateCyclicCommand();
             Setup.RunAndWaitForNormalCompletion(command);
-            Assert.AreEqual(3, command.CurrentCycle);
+            Assert.AreEqual(5, command.CurrentCycle);
         }
 
         [TestMethod()]
@@ -202,8 +202,8 @@ namespace ExtensibleCommandsUnitTest
 
         private CyclicCommand CreateCyclicCommand()
         {
-            var coreCommand = new SimpleCommand(() => Thread.Sleep((int)(0.6*Setup.ThreadLatencyDelayMsec)), "Sleep");
-            return new CyclicCommand(coreCommand, 3);
+            var coreCommand = new SimpleCommand(() => Thread.Sleep(Setup.ThreadLatencyDelayMsec), "Sleep");
+            return new CyclicCommand(coreCommand, 5);
         }
 
         private CyclicCommand CreatePauseAbortCyclicCommand(bool pause)

@@ -50,7 +50,7 @@ public class CyclicCommandTest {
     public void runOkTest() throws Exception {
         var command = createCyclicCommand();
         Setup.runAndWaitForNormalCompletion(command);
-        Assert.assertEquals(3, command.getCurrentCycle());
+        Assert.assertEquals(5, command.getCurrentCycle());
     }
 
     @Test
@@ -144,8 +144,8 @@ public class CyclicCommandTest {
     //----------------------------------------------------------------------------------------------------------------------
 
     private CyclicCommand createCyclicCommand() {
-        var coreCommand = new SimpleCommand(() -> sleep((Setup.ThreadLatencyDelayMsec)), "Sleep");
-        return new CyclicCommand(coreCommand, 3);
+        var coreCommand = new SimpleCommand(() -> sleep(Setup.ThreadLatencyDelayMsec), "Sleep");
+        return new CyclicCommand(coreCommand, 5);
     }
 
     private CyclicCommand createPauseAbortCyclicCommand(boolean pause) {

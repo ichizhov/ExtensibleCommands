@@ -268,7 +268,7 @@ public class TryCatchFinallyCommandTest {
         // An ExtensibleCommandsException exception is thrown inside the Core command, and the command is aborted
         // before the Finally command gets executed
         var coreCommand = new SimpleCommand(() -> {
-            sleep(3 * Setup.ThreadLatencyDelayMsec);
+            sleep(5 * Setup.ThreadLatencyDelayMsec);
             throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription);
             }, "Core");
         var finallyCommand = new SimpleCommand(() -> { }, "Finally");

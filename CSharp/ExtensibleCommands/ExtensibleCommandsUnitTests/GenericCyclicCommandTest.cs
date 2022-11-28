@@ -104,8 +104,8 @@ namespace ExtensibleCommandsUnitTest
         {
             var command = CreateCyclicCommand();
             Setup.RunAndWaitForNormalCompletion(command);
-            Assert.AreEqual(3, command.CurrentCycle);
-            Assert.AreEqual(30, command.CurrentElement);  // Enumerator should iterate until the end of the collection and be equal to last element
+            Assert.AreEqual(5, command.CurrentCycle);
+            Assert.AreEqual(50, command.CurrentElement);  // Enumerator should iterate until the end of the collection and be equal to last element
         }
 
         [TestMethod()]
@@ -212,12 +212,12 @@ namespace ExtensibleCommandsUnitTest
 
         private GenericCyclicCommand<int> CreateCyclicCommand()
         {
-            var list = new List<int> {10, 20, 30};
+            var list = new List<int> {10, 20, 30, 40, 50};
             var coreCommand = new SequentialCommand();
             var command = new GenericCyclicCommand<int>(coreCommand, list);
 
             coreCommand.Add(new SimpleCommand(() => { int k = command.CurrentElement; }))
-                .Add(new SimpleCommand(() => Thread.Sleep((int)(0.6 * Setup.ThreadLatencyDelayMsec)), "Sleep"));
+                .Add(new SimpleCommand(() => Thread.Sleep(Setup.ThreadLatencyDelayMsec), "Sleep"));
             return command;
         }
 

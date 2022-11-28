@@ -343,7 +343,7 @@ namespace ExtensibleCommandsUnitTest
             // before the Finally command gets executed
             var coreCommand = new SimpleCommand(() =>
             {
-                Thread.Sleep(3 * Setup.ThreadLatencyDelayMsec);
+                Thread.Sleep(5 * Setup.ThreadLatencyDelayMsec);
                 throw new ExtensibleCommandsException(Setup.TestErrorCode, Setup.TestErrorDescription);
             }, "Core");
             var finallyCommand = new SimpleCommand(() => { }, "Finally");

@@ -63,8 +63,8 @@ public class GenericCyclicCommandTest {
     public void runOkTest() throws Exception {
         var command = createCyclicCommand();
         Setup.runAndWaitForNormalCompletion(command);
-        Assert.assertEquals(3, command.getCurrentCycle());
-        Assert.assertEquals(30, (int)command.getCurrentElement());  // Enumerator should iterate until the end of the collection and be equal to last element
+        Assert.assertEquals(5, command.getCurrentCycle());
+        Assert.assertEquals(50, (int)command.getCurrentElement());  // Enumerator should iterate until the end of the collection and be equal to last element
     }
 
     @Test
@@ -161,13 +161,13 @@ public class GenericCyclicCommandTest {
     //----------------------------------------------------------------------------------------------------------------------
 
     private GenericCyclicCommand<Integer> createCyclicCommand() {
-        List<Integer> list = Arrays.asList(10, 20, 30);
+        List<Integer> list = Arrays.asList(10, 20, 30, 40, 50);
 
         var coreCommand = new SequentialCommand();
         var command = new GenericCyclicCommand<>(coreCommand, list);
 
         coreCommand.add(new SimpleCommand(() -> { int k = command.getCurrentElement(); }))
-            .add(new SimpleCommand(() -> sleep((Setup.ThreadLatencyDelayMsec)), "Sleep"));
+            .add(new SimpleCommand(() -> sleep(Setup.ThreadLatencyDelayMsec), "Sleep"));
         return command;
     }
 
