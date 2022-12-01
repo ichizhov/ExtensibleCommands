@@ -73,6 +73,8 @@ Alternatively, sub-commands can be added to a Sequential command via Add() metho
 	
 Figure 7. Sequential command flowchart.
 	
+It is worth noting that an attempt to add sub-commands to a Sequential command during its execution (including the time when the command may be paused) will result in an exception.
+
 ## 4.3. ParallelCommand.
 	
 [[C# code]](../CSharp/ExtensibleCommands/ExtensibleCommands/ParallelCommand.cs) [[Java code]](../Java/ExtensibleCommands/src/main/java/org/extensiblecommands/ParallelCommand.java)
@@ -100,6 +102,8 @@ If one of the sub-commands fails during execution, all other sub-commands will c
 ![Figure 8](Figures/Figure8.png)
 	
 Figure 8. Parallel command flowchart.
+
+As in the case of the Sequential command, an attempt to add sub-commands to a Parallel command during its execution (including the time when the command may be paused) will result in an exception.
 	
 ## 4.4. ConditionalCommand.
 	
