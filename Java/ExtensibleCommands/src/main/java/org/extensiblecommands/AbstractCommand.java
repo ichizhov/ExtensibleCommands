@@ -11,7 +11,7 @@ import java.util.*;
  * Base class for all commands. Implements fundamental command functions such as:
  * - execution;
  * - failure handling and notification;
- * - suspension & recovery
+ * - suspension and recovery
  */
 public abstract class AbstractCommand implements Command {
     /**
