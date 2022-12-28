@@ -11,7 +11,7 @@ Code and documentation at https://github.com/ichizhov/ExtensibleCommands.</Descr
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <RepositoryUrl>https://github.com/ichizhov/ExtensibleCommands</RepositoryUrl>
     <PackageProjectUrl>https://github.com/ichizhov/ExtensibleCommands</PackageProjectUrl>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Title>Extensible Commands</Title>
     <PackageTags>worklow automation; sequencing; sequence; orchestration; machine control; equipment control</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
